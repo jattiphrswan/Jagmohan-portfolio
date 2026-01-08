@@ -1,36 +1,48 @@
 export default function ProfileCard({ profile }) {
-  // ✅ Fix paths for GitHub Pages + local dev
-  const avatarUrl = profile.avatar
-    ? `${import.meta.env.BASE_URL}images/${profile.avatar}`
-    : null;
+  const withBase = (p) => {
+    if (!p) return "";
+    const base = import.meta.env.BASE_URL; // "/" locally, "/Jagmohan-portfolio/" on GitHub Pages
+    // if path starts with "/", remove it and prefix base
+    if (p.startsWith("/")) return `${base}${p.slice(1)}`;
+    // if already absolute http(s), keep it
+    if (p.startsWith("http")) return p;
+    // otherwise treat as filename in /images
+    return `${base}images/${p}`;
+  };
 
-  const bannerUrl = profile.banner
-    ? `${import.meta.env.BASE_URL}images/${profile.banner}`
-    : null;
+  const bannerUrl = withBase(profile.banner);
+  const avatarUrl = withBase(profile.avatar);
 
   return (
     <div className="rounded-xl border bg-white">
       {/* Banner */}
       <div className="relative h-36 overflow-hidden rounded-t-xl bg-slate-200">
-        {bannerUrl && (
+        {profile.banner && (
           <img
             src={bannerUrl}
             alt="Profile banner"
             className="h-full w-full object-cover"
+            onError={(e) => {
+              console.log("Banner failed:", bannerUrl);
+              e.currentTarget.style.display = "none";
+            }}
           />
         )}
       </div>
 
       <div className="relative px-5 pb-5">
-        {/* Profile image + actions */}
         <div className="-mt-12 flex items-end justify-between gap-3">
           {/* Avatar */}
           <div className="relative z-10 h-28 w-28 overflow-hidden rounded-full border-4 border-white bg-slate-300 shadow">
-            {avatarUrl && (
+            {profile.avatar && (
               <img
                 src={avatarUrl}
                 alt={profile.name}
                 className="h-full w-full object-cover"
+                onError={(e) => {
+                  console.log("Avatar failed:", avatarUrl);
+                  e.currentTarget.style.display = "none";
+                }}
               />
             )}
           </div>
