@@ -2,7 +2,7 @@ export const profile = {
   name: "Jagmohan Singh",
   headline: "Web Designer & Front-End Developer | WordPress | React | Tailwind",
   avatar: "profile.webp",
-banner: "Banner.jpg",
+  banner: "Banner.jpg",
  // optional
   company: "skyfish development",
   projects: "80+",
