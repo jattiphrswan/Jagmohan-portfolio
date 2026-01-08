@@ -1,11 +1,20 @@
 export default function ProfileCard({ profile }) {
+  // ✅ Fix paths for GitHub Pages + local dev
+  const avatarUrl = profile.avatar
+    ? `${import.meta.env.BASE_URL}images/${profile.avatar}`
+    : null;
+
+  const bannerUrl = profile.banner
+    ? `${import.meta.env.BASE_URL}images/${profile.banner}`
+    : null;
+
   return (
     <div className="rounded-xl border bg-white">
       {/* Banner */}
       <div className="relative h-36 overflow-hidden rounded-t-xl bg-slate-200">
-        {profile.banner && (
+        {bannerUrl && (
           <img
-            src={profile.banner}
+            src={bannerUrl}
             alt="Profile banner"
             className="h-full w-full object-cover"
           />
@@ -13,13 +22,13 @@ export default function ProfileCard({ profile }) {
       </div>
 
       <div className="relative px-5 pb-5">
-        {/* Profile image + actions row */}
+        {/* Profile image + actions */}
         <div className="-mt-12 flex items-end justify-between gap-3">
-          {/* Avatar (on top of banner) */}
+          {/* Avatar */}
           <div className="relative z-10 h-28 w-28 overflow-hidden rounded-full border-4 border-white bg-slate-300 shadow">
-            {profile.avatar && (
+            {avatarUrl && (
               <img
-                src={profile.avatar}
+                src={avatarUrl}
                 alt={profile.name}
                 className="h-full w-full object-cover"
               />

@@ -1,8 +1,9 @@
 export const profile = {
   name: "Jagmohan Singh",
   headline: "Web Designer & Front-End Developer | WordPress | React | Tailwind",
-  avatar: "/images/profile.webp",
-  banner: "/images/Banner.jpg", // optional
+  avatar: "profile.webp",
+banner: "Banner.jpg",
+ // optional
   company: "skyfish development",
   projects: "80+",
 
