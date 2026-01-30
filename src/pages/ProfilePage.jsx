@@ -105,22 +105,38 @@ export default function ProfilePage() {
 
           <Section title="Experience" id="experience">
             <div className="space-y-4">
-              {(profile?.experience || []).map((x, i) => (
-                <div key={i} className="border-b last:border-b-0 pb-4 last:pb-0">
-                  <div className="font-semibold">{x.role}</div>
-                  <div className="text-sm text-slate-700">
-                    {x.company} {x.type ? `• ${x.type}` : ""}
-                  </div>
-                  <div className="text-sm text-slate-500">
-                    {x.start} – {x.end} {x.location ? `• ${x.location}` : ""}
-                  </div>
+              {(profile?.experience ?? []).map((x, i) => (
+                <details key={i} className="group border rounded-xl p-4">
+                  <summary className="cursor-pointer list-none flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="font-semibold text-slate-900">{x.role}</h3>
 
-                  <ul className="mt-2 list-disc pl-5 text-sm text-slate-700 space-y-1">
-                    {(x.bullets || []).map((b, j) => (
-                      <li key={j}>{b}</li>
-                    ))}
-                  </ul>
-                </div>
+                      <div className="text-sm text-slate-700">
+                        {x.company}
+                        {x.type ? <span className="mx-1">•</span> : null}
+                        {x.type}
+                      </div>
+
+                      <div className="text-sm text-slate-500">
+                        {x.start} – {x.end}
+                        {x.location ? <span className="mx-1">•</span> : null}
+                        {x.location}
+                      </div>
+                    </div>
+
+                    <span className="mt-1 text-slate-500 group-open:rotate-180 transition">
+                      ▼
+                    </span>
+                  </summary>
+
+                  {Array.isArray(x.bullets) && x.bullets.length > 0 && (
+                    <ul className="mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1">
+                      {x.bullets.map((b, j) => (
+                        <li key={j}>{b}</li>
+                      ))}
+                    </ul>
+                  )}
+                </details>
               ))}
             </div>
           </Section>
@@ -144,7 +160,14 @@ export default function ProfilePage() {
               {(profile?.skills || []).map((s) => (
                 <span
                   key={s}
-                  className="rounded-full border bg-white px-3 py-1 text-sm text-slate-700"
+                  className="
+          cursor-pointer
+          rounded-full border bg-white px-3 py-1 text-sm
+          text-slate-700
+          transition-all duration-200
+          hover:bg-blue-700 hover:text-white hover:border-blue-700
+          hover:-translate-y-0.5 hover:shadow-sm
+        "
                 >
                   {s}
                 </span>
@@ -163,8 +186,12 @@ export default function ProfilePage() {
                 <div key={idx} className="flex items-center gap-3">
                   <div className="h-10 w-10 rounded-full bg-slate-200" />
                   <div className="min-w-0">
-                    <div className="truncate text-sm font-semibold">{p.name}</div>
-                    <div className="truncate text-xs text-slate-500">{p.role}</div>
+                    <div className="truncate text-sm font-semibold">
+                      {p.name}
+                    </div>
+                    <div className="truncate text-xs text-slate-500">
+                      {p.role}
+                    </div>
                   </div>
                   <button className="ml-auto rounded-full border px-3 py-1 text-xs font-semibold hover:bg-slate-50">
                     {p.button || "View"}

@@ -45,20 +45,68 @@ export const profile = {
   ],
 
   experience: [
-    {
-      role: "Web Designer & Developer",
-      company: "Freelance / Agency Work",
-      type: "Full-time",
-      start: "2023",
-      end: "Present",
-      location: "Remote",
-      bullets: [
-        "Designed modern UI layouts and responsive pages for client websites.",
-        "Built WordPress websites and customized themes using Elementor and custom CSS.",
-        "Developed clean UI components using Tailwind and React.",
-      ],
-    },
-  ],
+  {
+    role: "Senior WordPress Designer & Developer",
+    company: "SkyFish Development",
+    type: "Full-time",
+    start: "2025",
+    end: "Present",
+    location: "Remote",
+    bullets: [
+      "Working as a senior WordPress designer and developer on 20+ client projects.",
+      "Building and customizing WordPress websites using Elementor and custom CSS.",
+      "Handling plugin customization, theme customization, and advanced site configurations.",
+      "Resolving SMTP email issues, CDN conflicts, and website performance problems.",
+      "Implementing page speed optimization and improving Core Web Vitals.",
+      "Integrating third-party APIs and developing eCommerce websites.",
+      "Working extensively with Advanced Custom Fields (ACF) for dynamic content.",
+    ],
+  },
+  {
+    role: "Senior WordPress Developer",
+    company: "Danstring Technologies",
+    type: "Full-time",
+    start: "2024",
+    end: "2025",
+    location: "On-site",
+    bullets: [
+      "Worked on 20+ WordPress projects using Divi Builder and Divi Support plugins.",
+      "Created custom templates and reusable page layouts.",
+      "Handled complete website development from design to deployment.",
+      "Managed and guided a team of 3–4 interns, reviewing work and assigning tasks.",
+      "Ensured project quality, deadlines, and client requirements were met.",
+    ],
+  },
+  {
+    role: "Web Design & Development Intern",
+    company: "SMWebTech India",
+    type: "Internship",
+    start: "2023",
+    end: "2024",
+    location: "On-site",
+    bullets: [
+      "Completed a 6-month internship focused on HTML and CSS development.",
+      "Worked on new and live projects building responsive layouts.",
+      "Developed static websites and PHP-based HTML themes using XAMPP.",
+      "Assisted in converting designs into functional web pages.",
+    ],
+  },
+  {
+    role: "Web Designer & Developer",
+    company: "Freelance / Agency Work",
+    type: "Full-time",
+    start: "2023",
+    end: "Present",
+    location: "Remote",
+    bullets: [
+      "Designed modern UI layouts and responsive web pages for clients.",
+      "Built WordPress websites and customized themes using Elementor and custom CSS.",
+      "Developed clean UI components using Tailwind CSS and React.",
+      "Collaborated directly with clients to understand requirements and deliver solutions.",
+    ],
+  },
+],
+
 
   education: [
     {
