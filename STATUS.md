@@ -33,8 +33,8 @@ src/
 | Node | Name | Status |
 |---|---|---|
 | N0 | Current Project Audit | **PASS** |
-| N1 | React Router + Multi-Page Structure | **READY** |
-| N2 | LinkedIn UI System | BLOCKED |
+| N1 | React Router + Multi-Page Structure | **PASS** |
+| N2 | LinkedIn UI System | **READY** |
 | N3 | Backend Foundation | BLOCKED |
 | N4 | PostgreSQL + Prisma | BLOCKED |
 | N5 | Public Profile Pages | BLOCKED |
@@ -57,7 +57,21 @@ src/
 - `npm run build` — PASS (26 modules, dist/ produced)
 - No source files deleted or modified (README.md replaced with project-specific version)
 
+## N1 — React Router + Multi-Page Structure (PASS)
+
+- `react-router-dom` installed
+- `BrowserRouter` + `Routes` + `Route` added to `App.jsx`
+- `src/components/Layout.jsx` created (shared Header + Footer wrapper)
+- `src/components/Header.jsx` migrated to `NavLink` with active state
+- `src/pages/ProfilePage.jsx` stripped of its own Header/Footer (now provided by Layout)
+- Page shells created: `AboutPage`, `ExperiencePage`, `SkillsPage`, `ProjectsPage`, `ContactPage`, `NotFoundPage`
+- `public/404.html` + `index.html` decode script for GitHub Pages SPA routing
+- `eslint.config.js` updated: added `argsIgnorePattern` + `destructuredArrayIgnorePattern` for `^[A-Z_]`
+- `npm run lint` — PASS (0 errors, 0 warnings)
+- `npm run build` — PASS (41 modules, dist/ produced)
+
 ## Current Action
 
-N0 = **PASS** ✅  
-Waiting for approval to start **N1 — React Router + Multi-Page Structure**.
+N1 = **PASS** ✅  
+Waiting for approval to start **N2 — LinkedIn UI System**.
+

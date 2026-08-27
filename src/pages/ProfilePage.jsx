@@ -1,6 +1,4 @@
-import Header from "../components/Header";
 import ProfileCard from "../components/ProfileCard";
-import Footer from "../components/Footer";
 import { profile } from "../data/profile";
 import { FiPhone, FiMail } from "react-icons/fi";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
@@ -25,142 +23,139 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      <Header />
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+      {/* LEFT SIDEBAR */}
+      <aside className="hidden lg:col-span-2 lg:block space-y-4">
+        {/* Contact */}
+        <div className="rounded-xl border bg-white p-4">
+          <div className="text-sm font-semibold">Contact</div>
 
-      <main className="mx-auto w-full max-w-[1600px] grid grid-cols-1 gap-6 px-6 py-5 lg:grid-cols-12">
-        {/* LEFT SIDEBAR */}
-        <aside className="hidden lg:col-span-2 lg:block space-y-4">
-          {/* Contact */}
-          <div className="rounded-xl border bg-white p-4">
-            <div className="text-sm font-semibold">Contact</div>
+          <div className="mt-2 space-y-3 text-sm text-slate-600">
+            {contactItems.map(({ key, Icon }) => {
+              const item = profile?.contact?.[key];
+              if (!item || typeof Icon !== "function") return null;
 
-            <div className="mt-2 space-y-3 text-sm text-slate-600">
-              {contactItems.map(({ key, Icon }) => {
-                const item = profile?.contact?.[key];
-                if (!item || typeof Icon !== "function") return null;
+              const isExternal = item.href?.startsWith("http");
 
-                const isExternal = item.href?.startsWith("http");
+              return (
+                <div key={key} className="flex items-center gap-2">
+                  <Icon className="text-slate-500" />
+                  <a
+                    href={item.href}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    className="text-blue-600 hover:underline break-all"
+                  >
+                    {item.label}
+                  </a>
+                </div>
+              );
+            })}
 
-                return (
-                  <div key={key} className="flex items-center gap-2">
-                    <Icon className="text-slate-500" />
-                    <a
-                      href={item.href}
-                      target={isExternal ? "_blank" : undefined}
-                      rel={isExternal ? "noopener noreferrer" : undefined}
-                      className="text-blue-600 hover:underline break-all"
-                    >
-                      {item.label}
-                    </a>
-                  </div>
-                );
-              })}
-
-              {/* Hire Me -> CALL */}
-              <div className="pt-3">
-                <a
-                  href={profile?.contact?.phone?.href || "#"}
-                  className="inline-flex w-full justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-                >
-                  Hire Me
-                </a>
-              </div>
+            {/* Hire Me -> CALL */}
+            <div className="pt-3">
+              <a
+                href={profile?.contact?.phone?.href || "#"}
+                className="inline-flex w-full justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+              >
+                Hire Me
+              </a>
             </div>
           </div>
+        </div>
 
-          {/* Services */}
-          <div className="rounded-xl border bg-white p-4">
-            <div className="text-sm font-semibold">Services</div>
-            <ul className="mt-2 list-disc pl-5 text-sm text-slate-600 space-y-1">
-              {(profile?.services || []).map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
+        {/* Services */}
+        <div className="rounded-xl border bg-white p-4">
+          <div className="text-sm font-semibold">Services</div>
+          <ul className="mt-2 list-disc pl-5 text-sm text-slate-600 space-y-1">
+            {(profile?.services || []).map((s) => (
+              <li key={s}>{s}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Tools */}
+        <div className="rounded-xl border bg-white p-4">
+          <div className="text-sm font-semibold">Tools</div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {(profile?.tools || []).map((t) => (
+              <span
+                key={t}
+                className="rounded-full border px-2.5 py-1 text-xs text-slate-700"
+              >
+                {t}
+              </span>
+            ))}
           </div>
+        </div>
+      </aside>
 
-          {/* Tools */}
-          <div className="rounded-xl border bg-white p-4">
-            <div className="text-sm font-semibold">Tools</div>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {(profile?.tools || []).map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full border px-2.5 py-1 text-xs text-slate-700"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
-        </aside>
+      {/* CENTER */}
+      <section className="lg:col-span-8 space-y-4">
+        <ProfileCard profile={profile} />
 
-        {/* CENTER */}
-        <section className="lg:col-span-8 space-y-4">
-          <ProfileCard profile={profile} />
+        <Section title="About" id="about">
+          <p className="text-sm leading-6 text-slate-700">{profile?.about}</p>
+        </Section>
 
-          <Section title="About" id="about">
-            <p className="text-sm leading-6 text-slate-700">{profile?.about}</p>
-          </Section>
+        <Section title="Experience" id="experience">
+          <div className="space-y-4">
+            {(profile?.experience ?? []).map((x, i) => (
+              <details key={i} className="group border rounded-xl p-4">
+                <summary className="cursor-pointer list-none flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="font-semibold text-slate-900">{x.role}</h3>
 
-          <Section title="Experience" id="experience">
-            <div className="space-y-4">
-              {(profile?.experience ?? []).map((x, i) => (
-                <details key={i} className="group border rounded-xl p-4">
-                  <summary className="cursor-pointer list-none flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="font-semibold text-slate-900">{x.role}</h3>
-
-                      <div className="text-sm text-slate-700">
-                        {x.company}
-                        {x.type ? <span className="mx-1">•</span> : null}
-                        {x.type}
-                      </div>
-
-                      <div className="text-sm text-slate-500">
-                        {x.start} – {x.end}
-                        {x.location ? <span className="mx-1">•</span> : null}
-                        {x.location}
-                      </div>
+                    <div className="text-sm text-slate-700">
+                      {x.company}
+                      {x.type ? <span className="mx-1">•</span> : null}
+                      {x.type}
                     </div>
 
-                    <span className="mt-1 text-slate-500 group-open:rotate-180 transition">
-                      ▼
-                    </span>
-                  </summary>
-
-                  {Array.isArray(x.bullets) && x.bullets.length > 0 && (
-                    <ul className="mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1">
-                      {x.bullets.map((b, j) => (
-                        <li key={j}>{b}</li>
-                      ))}
-                    </ul>
-                  )}
-                </details>
-              ))}
-            </div>
-          </Section>
-
-          <Section title="Education" id="education">
-            <div className="space-y-3">
-              {(profile?.education || []).map((e, i) => (
-                <div key={i}>
-                  <div className="font-semibold">{e.school}</div>
-                  <div className="text-sm text-slate-700">{e.degree}</div>
-                  <div className="text-sm text-slate-500">
-                    {e.start} – {e.end}
+                    <div className="text-sm text-slate-500">
+                      {x.start} – {x.end}
+                      {x.location ? <span className="mx-1">•</span> : null}
+                      {x.location}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </Section>
 
-          <Section title="Skills" id="skills">
-            <div className="flex flex-wrap gap-2">
-              {(profile?.skills || []).map((s) => (
-                <span
-                  key={s}
-                  className="
+                  <span className="mt-1 text-slate-500 group-open:rotate-180 transition">
+                    ▼
+                  </span>
+                </summary>
+
+                {Array.isArray(x.bullets) && x.bullets.length > 0 && (
+                  <ul className="mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1">
+                    {x.bullets.map((b, j) => (
+                      <li key={j}>{b}</li>
+                    ))}
+                  </ul>
+                )}
+              </details>
+            ))}
+          </div>
+        </Section>
+
+        <Section title="Education" id="education">
+          <div className="space-y-3">
+            {(profile?.education || []).map((e, i) => (
+              <div key={i}>
+                <div className="font-semibold">{e.school}</div>
+                <div className="text-sm text-slate-700">{e.degree}</div>
+                <div className="text-sm text-slate-500">
+                  {e.start} – {e.end}
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <Section title="Skills" id="skills">
+          <div className="flex flex-wrap gap-2">
+            {(profile?.skills || []).map((s) => (
+              <span
+                key={s}
+                className="
           cursor-pointer
           rounded-full border bg-white px-3 py-1 text-sm
           text-slate-700
@@ -168,42 +163,39 @@ export default function ProfilePage() {
           hover:bg-blue-700 hover:text-white hover:border-blue-700
           hover:-translate-y-0.5 hover:shadow-sm
         "
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-          </Section>
-        </section>
-
-        {/* RIGHT SIDEBAR */}
-        <aside className="hidden lg:col-span-2 lg:block">
-          <div className="rounded-xl border bg-white p-4">
-            <div className="text-sm font-semibold">People also viewed</div>
-
-            <div className="mt-3 space-y-3">
-              {(profile?.peopleAlsoViewed || []).map((p, idx) => (
-                <div key={idx} className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-slate-200" />
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-semibold">
-                      {p.name}
-                    </div>
-                    <div className="truncate text-xs text-slate-500">
-                      {p.role}
-                    </div>
-                  </div>
-                  <button className="ml-auto rounded-full border px-3 py-1 text-xs font-semibold hover:bg-slate-50">
-                    {p.button || "View"}
-                  </button>
-                </div>
-              ))}
-            </div>
+              >
+                {s}
+              </span>
+            ))}
           </div>
-        </aside>
-      </main>
+        </Section>
+      </section>
 
-      <Footer />
+      {/* RIGHT SIDEBAR */}
+      <aside className="hidden lg:col-span-2 lg:block">
+        <div className="rounded-xl border bg-white p-4">
+          <div className="text-sm font-semibold">People also viewed</div>
+
+          <div className="mt-3 space-y-3">
+            {(profile?.peopleAlsoViewed || []).map((p, idx) => (
+              <div key={idx} className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-slate-200" />
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-semibold">
+                    {p.name}
+                  </div>
+                  <div className="truncate text-xs text-slate-500">
+                    {p.role}
+                  </div>
+                </div>
+                <button className="ml-auto rounded-full border px-3 py-1 text-xs font-semibold hover:bg-slate-50">
+                  {p.button || "View"}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </aside>
     </div>
   );
 }
