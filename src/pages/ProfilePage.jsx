@@ -1,201 +1,302 @@
+import { Link } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
+import SectionCard from "../components/SectionCard";
 import { profile } from "../data/profile";
-import { FiPhone, FiMail } from "react-icons/fi";
+import {
+  FiPhone,
+  FiMail,
+  FiExternalLink,
+  FiChevronDown,
+  FiAward,
+  FiCheckCircle,
+  FiFolder,
+  FiBookOpen,
+} from "react-icons/fi";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
-
-function Section({ title, children, id }) {
-  return (
-    <section id={id} className="rounded-xl border bg-white scroll-mt-24">
-      <div className="border-b px-5 py-4">
-        <h2 className="text-base font-semibold">{title}</h2>
-      </div>
-      <div className="px-5 py-4">{children}</div>
-    </section>
-  );
-}
 
 export default function ProfilePage() {
   const contactItems = [
-    { key: "phone", Icon: FiPhone },
-    { key: "email", Icon: FiMail },
-    { key: "linkedin", Icon: FaLinkedin },
-    { key: "github", Icon: FaGithub },
+    { key: "phone", Icon: FiPhone, label: "Phone", href: profile?.contact?.phone?.href, text: profile?.contact?.phone?.label },
+    { key: "email", Icon: FiMail, label: "Email", href: profile?.contact?.email?.href, text: profile?.contact?.email?.label },
+    { key: "linkedin", Icon: FaLinkedin, label: "LinkedIn", href: profile?.contact?.linkedin?.href, text: "LinkedIn Profile" },
+    { key: "github", Icon: FaGithub, label: "GitHub", href: profile?.contact?.github?.href, text: "GitHub Profile" },
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-      {/* LEFT SIDEBAR */}
-      <aside className="hidden lg:col-span-2 lg:block space-y-4">
-        {/* Contact */}
-        <div className="rounded-xl border bg-white p-4">
-          <div className="text-sm font-semibold">Contact</div>
-
-          <div className="mt-2 space-y-3 text-sm text-slate-600">
-            {contactItems.map(({ key, Icon }) => {
-              const item = profile?.contact?.[key];
-              if (!item || typeof Icon !== "function") return null;
-
-              const isExternal = item.href?.startsWith("http");
-
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 items-start">
+      {/* ── LEFT SIDEBAR (Desktop: 3 cols) ────────────────────── */}
+      <aside className="space-y-4 lg:col-span-3 order-2 lg:order-1">
+        {/* Contact Card */}
+        <SectionCard title="Contact Information" bodyClassName="p-4 space-y-3">
+          <div className="space-y-2.5 text-xs">
+            {contactItems.map(({ key, Icon, label, href, text }) => {
+              if (!href) return null;
+              const isExternal = href.startsWith("http");
               return (
-                <div key={key} className="flex items-center gap-2">
-                  <Icon className="text-slate-500" />
-                  <a
-                    href={item.href}
-                    target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noopener noreferrer" : undefined}
-                    className="text-blue-600 hover:underline break-all"
-                  >
-                    {item.label}
-                  </a>
+                <div key={key} className="flex items-start gap-2.5">
+                  <Icon className="mt-0.5 text-slate-500 shrink-0 text-sm" />
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[11px] font-medium text-slate-400 block">{label}</span>
+                    <a
+                      href={href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      className="text-slate-800 font-medium hover:text-[#0a66c2] hover:underline break-all transition-colors"
+                    >
+                      {text}
+                    </a>
+                  </div>
                 </div>
               );
             })}
-
-            {/* Hire Me -> CALL */}
-            <div className="pt-3">
-              <a
-                href={profile?.contact?.phone?.href || "#"}
-                className="inline-flex w-full justify-center rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-              >
-                Hire Me
-              </a>
-            </div>
           </div>
-        </div>
 
-        {/* Services */}
-        <div className="rounded-xl border bg-white p-4">
-          <div className="text-sm font-semibold">Services</div>
-          <ul className="mt-2 list-disc pl-5 text-sm text-slate-600 space-y-1">
-            {(profile?.services || []).map((s) => (
-              <li key={s}>{s}</li>
+          <div className="pt-2 border-t border-slate-100">
+            <a
+              href={profile?.contact?.phone?.href || "tel:+919315667284"}
+              className="inline-flex w-full items-center justify-center rounded-full bg-[#0a66c2] px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-[#004182]"
+            >
+              Hire Me
+            </a>
+          </div>
+        </SectionCard>
+
+        {/* Services Card */}
+        <SectionCard title="Services Offered" bodyClassName="p-4">
+          <ul className="space-y-2 text-xs text-slate-700">
+            {(profile?.services || []).map((service) => (
+              <li key={service} className="flex items-start gap-2">
+                <FiCheckCircle className="text-emerald-600 mt-0.5 shrink-0 text-sm" />
+                <span>{service}</span>
+              </li>
             ))}
           </ul>
-        </div>
+        </SectionCard>
 
-        {/* Tools */}
-        <div className="rounded-xl border bg-white p-4">
-          <div className="text-sm font-semibold">Tools</div>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {(profile?.tools || []).map((t) => (
+        {/* Tools Card */}
+        <SectionCard title="Tools & Technologies" bodyClassName="p-4">
+          <div className="flex flex-wrap gap-1.5">
+            {(profile?.tools || []).map((tool) => (
               <span
-                key={t}
-                className="rounded-full border px-2.5 py-1 text-xs text-slate-700"
+                key={tool}
+                className="rounded-md border border-slate-200 bg-slate-50/80 px-2.5 py-1 text-xs font-medium text-slate-700"
               >
-                {t}
+                {tool}
               </span>
             ))}
           </div>
-        </div>
+        </SectionCard>
       </aside>
 
-      {/* CENTER */}
-      <section className="lg:col-span-8 space-y-4">
+      {/* ── CENTER CONTENT (Desktop: 6 cols / Tablet: main) ──── */}
+      <section className="space-y-4 lg:col-span-6 order-1 lg:order-2">
+        {/* Main Profile Hero Card */}
         <ProfileCard profile={profile} />
 
-        <Section title="About" id="about">
-          <p className="text-sm leading-6 text-slate-700">{profile?.about}</p>
-        </Section>
+        {/* About Section */}
+        <SectionCard
+          title="About"
+          id="about"
+          action={
+            <Link to="/about" className="text-xs font-semibold text-[#0a66c2] hover:underline">
+              Read more
+            </Link>
+          }
+        >
+          <p className="text-sm leading-relaxed text-slate-700 whitespace-pre-line">
+            {profile?.about}
+          </p>
+        </SectionCard>
 
-        <Section title="Experience" id="experience">
-          <div className="space-y-4">
-            {(profile?.experience ?? []).map((x, i) => (
-              <details key={i} className="group border rounded-xl p-4">
-                <summary className="cursor-pointer list-none flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="font-semibold text-slate-900">{x.role}</h3>
-
-                    <div className="text-sm text-slate-700">
-                      {x.company}
-                      {x.type ? <span className="mx-1">•</span> : null}
-                      {x.type}
+        {/* Experience Section */}
+        <SectionCard
+          title="Experience"
+          id="experience"
+          action={
+            <Link to="/experience" className="text-xs font-semibold text-[#0a66c2] hover:underline">
+              View all ({profile?.experience?.length || 0})
+            </Link>
+          }
+        >
+          <div className="divide-y divide-slate-100">
+            {(profile?.experience || []).map((exp, idx) => (
+              <details
+                key={idx}
+                className="group py-3.5 first:pt-0 last:pb-0 transition-colors"
+                open={idx === 0}
+              >
+                <summary className="cursor-pointer list-none flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 border border-slate-200 text-slate-700 font-bold text-sm">
+                      {exp.company ? exp.company.slice(0, 2).toUpperCase() : "WP"}
                     </div>
-
-                    <div className="text-sm text-slate-500">
-                      {x.start} – {x.end}
-                      {x.location ? <span className="mx-1">•</span> : null}
-                      {x.location}
+                    <div>
+                      <h3 className="text-sm sm:text-base font-semibold text-slate-900 leading-snug">
+                        {exp.role}
+                      </h3>
+                      <div className="text-xs font-medium text-slate-700 mt-0.5">
+                        {exp.company}
+                        {exp.type && <span className="mx-1.5 text-slate-300">•</span>}
+                        <span className="text-slate-500">{exp.type}</span>
+                      </div>
+                      <div className="text-xs text-slate-500 mt-0.5">
+                        {exp.start} – {exp.end}
+                        {exp.location && <span className="mx-1.5 text-slate-300">•</span>}
+                        <span>{exp.location}</span>
+                      </div>
                     </div>
                   </div>
 
-                  <span className="mt-1 text-slate-500 group-open:rotate-180 transition">
-                    ▼
+                  <span className="mt-1 rounded p-1 text-slate-400 group-hover:text-slate-600 transition-transform duration-200 group-open:rotate-180">
+                    <FiChevronDown className="text-base" />
                   </span>
                 </summary>
 
-                {Array.isArray(x.bullets) && x.bullets.length > 0 && (
-                  <ul className="mt-3 list-disc pl-5 text-sm text-slate-700 space-y-1">
-                    {x.bullets.map((b, j) => (
-                      <li key={j}>{b}</li>
+                {Array.isArray(exp.bullets) && exp.bullets.length > 0 && (
+                  <ul className="mt-3 ml-13 list-disc pl-5 text-xs text-slate-700 space-y-1.5 leading-relaxed">
+                    {exp.bullets.map((bullet, bIdx) => (
+                      <li key={bIdx}>{bullet}</li>
                     ))}
                   </ul>
                 )}
               </details>
             ))}
           </div>
-        </Section>
+        </SectionCard>
 
-        <Section title="Education" id="education">
-          <div className="space-y-3">
-            {(profile?.education || []).map((e, i) => (
-              <div key={i}>
-                <div className="font-semibold">{e.school}</div>
-                <div className="text-sm text-slate-700">{e.degree}</div>
-                <div className="text-sm text-slate-500">
-                  {e.start} – {e.end}
-                </div>
-              </div>
-            ))}
+        {/* Featured Projects Preview Card */}
+        <SectionCard
+          title="Featured Projects"
+          id="projects"
+          action={
+            <Link to="/projects" className="text-xs font-semibold text-[#0a66c2] hover:underline flex items-center gap-1">
+              <span>View all projects</span>
+              <FiExternalLink className="text-[10px]" />
+            </Link>
+          }
+        >
+          <div className="rounded-lg border border-slate-100 bg-slate-50/70 p-4 text-center">
+            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 text-[#0a66c2] mb-2">
+              <FiFolder className="text-lg" />
+            </div>
+            <h4 className="text-sm font-semibold text-slate-900">Portfolio Projects</h4>
+            <p className="mt-1 text-xs text-slate-600 max-w-md mx-auto">
+              Completed 80+ client websites, custom WordPress themes, WooCommerce stores, and responsive React web applications.
+            </p>
+            <Link
+              to="/projects"
+              className="mt-3 inline-flex items-center gap-1 rounded-full border border-slate-300 bg-white px-4 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50"
+            >
+              Explore Project Showcase
+            </Link>
           </div>
-        </Section>
+        </SectionCard>
 
-        <Section title="Skills" id="skills">
+        {/* Skills Section */}
+        <SectionCard
+          title="Skills & Endorsements"
+          id="skills"
+          action={
+            <Link to="/skills" className="text-xs font-semibold text-[#0a66c2] hover:underline">
+              All skills
+            </Link>
+          }
+        >
           <div className="flex flex-wrap gap-2">
-            {(profile?.skills || []).map((s) => (
+            {(profile?.skills || []).map((skill) => (
               <span
-                key={s}
-                className="
-          cursor-pointer
-          rounded-full border bg-white px-3 py-1 text-sm
-          text-slate-700
-          transition-all duration-200
-          hover:bg-blue-700 hover:text-white hover:border-blue-700
-          hover:-translate-y-0.5 hover:shadow-sm
-        "
+                key={skill}
+                className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-medium text-slate-800 transition-all hover:border-[#0a66c2] hover:bg-blue-50 hover:text-[#0a66c2] hover:-translate-y-0.5 cursor-pointer shadow-2xs"
               >
-                {s}
+                {skill}
               </span>
             ))}
           </div>
-        </Section>
-      </section>
+        </SectionCard>
 
-      {/* RIGHT SIDEBAR */}
-      <aside className="hidden lg:col-span-2 lg:block">
-        <div className="rounded-xl border bg-white p-4">
-          <div className="text-sm font-semibold">People also viewed</div>
-
-          <div className="mt-3 space-y-3">
-            {(profile?.peopleAlsoViewed || []).map((p, idx) => (
-              <div key={idx} className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-slate-200" />
-                <div className="min-w-0">
-                  <div className="truncate text-sm font-semibold">
-                    {p.name}
-                  </div>
-                  <div className="truncate text-xs text-slate-500">
-                    {p.role}
-                  </div>
+        {/* Education Section */}
+        <SectionCard title="Education" id="education">
+          <div className="space-y-3">
+            {(profile?.education || []).map((edu, idx) => (
+              <div key={idx} className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 border border-slate-200 text-slate-700">
+                  <FiBookOpen className="text-lg" />
                 </div>
-                <button className="ml-auto rounded-full border px-3 py-1 text-xs font-semibold hover:bg-slate-50">
-                  {p.button || "View"}
-                </button>
+                <div>
+                  <h4 className="text-sm font-semibold text-slate-900">{edu.school}</h4>
+                  <p className="text-xs text-slate-700">{edu.degree}</p>
+                  <p className="text-xs text-slate-500">
+                    {edu.start} – {edu.end}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
+        </SectionCard>
+      </section>
+
+      {/* ── RIGHT SIDEBAR (Desktop: 3 cols) ───────────────────── */}
+      <aside className="space-y-4 lg:col-span-3 order-3">
+        {/* Profile Highlights Card */}
+        <SectionCard title="Portfolio Highlights" bodyClassName="p-4 space-y-3">
+          <div className="grid grid-cols-2 gap-2 text-center">
+            <div className="rounded-lg bg-slate-50 border border-slate-100 p-2.5">
+              <div className="text-lg font-bold text-[#0a66c2]">{profile.projects || "80+"}</div>
+              <div className="text-[11px] text-slate-500 font-medium">Projects Done</div>
+            </div>
+            <div className="rounded-lg bg-slate-50 border border-slate-100 p-2.5">
+              <div className="text-lg font-bold text-[#0a66c2]">3+ Years</div>
+              <div className="text-[11px] text-slate-500 font-medium">Experience</div>
+            </div>
+          </div>
+          <div className="rounded-lg bg-slate-50 border border-slate-100 p-2.5 text-center">
+            <div className="text-sm font-semibold text-slate-900">20+ WordPress Sites</div>
+            <div className="text-[11px] text-slate-500">Custom themes &amp; Elementor</div>
+          </div>
+        </SectionCard>
+
+        {/* People Also Viewed Card */}
+        <SectionCard title="Related Specializations" bodyClassName="p-4">
+          <div className="space-y-3">
+            {(profile?.peopleAlsoViewed || []).map((item, idx) => (
+              <div key={idx} className="flex items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#0a66c2] font-semibold text-xs border border-blue-100">
+                    <FiAward />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-slate-900 truncate">{item.name}</div>
+                    <div className="text-[11px] text-slate-500 truncate">{item.role}</div>
+                  </div>
+                </div>
+                <Link
+                  to="/services"
+                  className="shrink-0 rounded-full border border-slate-300 px-3 py-1 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-400"
+                >
+                  {item.button || "View"}
+                </Link>
+              </div>
+            ))}
+          </div>
+        </SectionCard>
+
+        {/* Quick Contact Box */}
+        <div className="rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50 to-white p-4 shadow-sm">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-[#0a66c2]">
+            Ready to collaborate?
+          </h4>
+          <p className="mt-1 text-xs text-slate-600">
+            Available for freelance web design, WordPress development, and front-end engineering.
+          </p>
+          <Link
+            to="/contact"
+            className="mt-3 block text-center rounded-full bg-[#0a66c2] py-2 text-xs font-semibold text-white hover:bg-[#004182] transition shadow-xs"
+          >
+            Get In Touch
+          </Link>
         </div>
       </aside>
     </div>
   );
 }
+
