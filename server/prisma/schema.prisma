@@ -1,0 +1,20 @@
+// Prisma Schema for Jagmohan Portfolio Backend
+// Node N4: PostgreSQL + Prisma Foundation
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Foundational health model for N4 database verification & migration testing
+model DatabaseHealth {
+  id        String   @id @default(uuid())
+  status    String   @default("ok")
+  checkedAt DateTime @default(now())
+
+  @@map("database_health")
+}

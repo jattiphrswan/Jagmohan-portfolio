@@ -18,18 +18,24 @@ Before changing code, read:
 - Do not start a later node.
 
 ## Target Product
-Eventually include multi-page routing, multiple projects, project detail pages, Node/Express backend, PostgreSQL/Prisma, Zod, secure admin login, CRUD, media, contact form, admin message inbox, Resend email notifications, SEO, accessibility, and production deployment.
+Eventually include multi-page routing, multiple projects, project detail pages, Node/Express backend, PostgreSQL/Prisma, Zod, secure admin login, CRUD, media, contact form, admin message inbox, Gmail email notifications, SEO, accessibility, and production deployment.
 
-## Contact Rule
-Do not use direct Gmail SMTP as the primary production solution.
-
-Use server-side Resend if possible.
-
-Correct order:
-1. validate
-2. save to PostgreSQL
-3. attempt email notification
-4. keep the message even if email fails
+## Contact & Email Rules
+- **Authoritative Provider**: Gmail is the chosen email provider for contact-form notifications. Do NOT use Resend, SendGrid, Mailgun, or any other provider.
+- **Architecture**:
+  Visitor → Portfolio Contact Form → Backend API → Server-side validation → Save to PostgreSQL → Attempt Gmail notification → Portfolio owner's Gmail inbox (`jattiphrswan49@gmail.com`).
+- **Processing Order**:
+  1. Validate input server-side.
+  2. Save message to PostgreSQL.
+  3. Attempt Gmail notification.
+  4. Keep the message in database even if email delivery fails.
+- **Security Requirements**:
+  - Gmail credentials must remain server-side.
+  - Never put Gmail credentials, passwords, app passwords, or secrets in React/frontend code.
+  - Store secrets in server environment variables (`.env`).
+  - Never commit `.env` files or credentials to Git.
+  - The frontend must communicate with the backend API rather than Gmail directly.
+  - Do not expose SMTP/Gmail credentials to the browser.
 
 Destination:
 `jattiphrswan49@gmail.com`

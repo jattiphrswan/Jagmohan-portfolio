@@ -36,5 +36,5 @@ N15 Final Regression Testing
 
 ## Key Notes
 - N2 keeps the same LinkedIn layout but improves Inter typography, spacing, cards, hover states, responsiveness, and mobile behavior.
-- N11 stores contact messages first, then sends a Resend notification to `jattiphrswan49@gmail.com`.
+- N11 stores contact messages in PostgreSQL first, then sends a Gmail notification to `jattiphrswan49@gmail.com` via backend API (credentials strictly server-side).
 - Never skip nodes.

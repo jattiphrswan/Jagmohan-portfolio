@@ -15,7 +15,7 @@ Built with **React + Vite + Tailwind CSS**.
 | Deployment | GitHub Pages (current) → Vercel (planned) |
 | Backend (planned) | Node.js, Express |
 | Database (planned) | PostgreSQL + Prisma ORM |
-| Email (planned) | Resend API |
+| Email (planned) | Gmail (server-side) |
 | Auth (planned) | HTTP-only cookies, bcrypt |
 
 ---
@@ -34,7 +34,7 @@ N7  Admin Authentication
 N8  Project CRUD
 N9  Profile / Experience / Skills CRUD
 N10 Media / Image Management
-N11 Contact Form + Email Notification
+N11 Contact Form + Gmail Notification
 N12 Admin Messages / Lead Inbox
 N13 SEO + Performance + Accessibility
 N14 Production Deployment

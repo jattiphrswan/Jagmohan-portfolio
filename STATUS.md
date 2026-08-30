@@ -26,7 +26,7 @@ src/
 - add multiple projects
 - add contact form
 - notify `jattiphrswan49@gmail.com`
-- use Resend instead of direct Gmail SMTP
+- use server-side Gmail for email notifications (credentials strictly server-side, no Resend)
 
 ## Node Status
 
@@ -36,8 +36,8 @@ src/
 | N1 | React Router + Multi-Page Structure | **PASS** |
 | N2 | LinkedIn UI System | **PASS** |
 | N3 | Backend Foundation | **PASS** |
-| N4 | PostgreSQL + Prisma | **READY** |
-| N5 | Public Profile Pages | BLOCKED |
+| N4 | PostgreSQL + Prisma | **PASS** |
+| N5 | Public Profile Pages | **PASS** |
 | N6 | Projects + Project Details | BLOCKED |
 | N7 | Admin Authentication | BLOCKED |
 | N8 | Project CRUD | BLOCKED |
@@ -94,17 +94,39 @@ src/
 - Tested `GET /api/health` (200 OK) and unknown route `GET /api/not-a-real-route` (404 Not Found)
 - Frontend regression test: `npm run lint` & `npm run build` (PASS, 0 errors, 0 warnings)
 
+## N4 — PostgreSQL + Prisma (PASS)
+
+- Installed `@prisma/client` (6.4.1) and `prisma` CLI (6.4.1) in `server/` workspace
+- Created `server/prisma/schema.prisma` configured for PostgreSQL datasource and Prisma Client generator
+- Defined foundational `DatabaseHealth` model for database verification & migration testing
+- Created migration `20260830151916_init` and applied it to PostgreSQL database (`portfolio_dev`)
+- Created singleton Prisma client instance in `server/src/lib/prisma.js` (preventing multiple connections during development reloads)
+- Updated `server/src/routes/health.js` to report dynamic database connection status (`SELECT 1` query)
+- Verified PostgreSQL connection and CRUD operations via Prisma Client
+- Verified backend `/api/health` endpoint returning `database: "connected"`
+- Protected all database credentials within `server/.env` (fully gitignored); updated `server/.env.example` with standard placeholder
+- Frontend regression test: `npm run lint` & `npm run build` (PASS, 0 errors, 0 warnings)
+
+## N5 — Public Profile Pages (PASS)
+
+- Refined authentic profile data across `src/data/profile.js` (accurate work history, skill taxonomy, tools, education, contact info)
+- Built polished public profile views: `ProfilePage` (`/`), `AboutPage` (`/about`), `ExperiencePage` (`/experience`), and `SkillsPage` (`/skills`)
+- Implemented LinkedIn-style layout with structured sidebars, interactive collapsible experience positions, categorized skills, and highlight metrics
+- Created public profile backend route `GET /api/profile` in `server/src/routes/profile.js` and mounted on `server/src/app.js`
+- Verified backend API response (`/api/profile` returns 200 OK with authentic profile payload)
+- Tested Vite development server startup (`npm run dev` starts cleanly at `http://localhost:5173/`)
+- Frontend regression test: `npm run lint` & `npm run build` (PASS, 0 errors, 0 warnings)
+
 ## Upcoming Roadmap Guidelines (Preserved)
 
-- **N5 (Public Profile Pages)**: Strong real About/Profile content based on authentic experience.
 - **N6 (Projects System)**: Professional support for 50+ real projects (including ecommerce & real client links).
-- **N11 (Contact System)**: Contact submission saving to PostgreSQL first, then sending email via Resend API to `jattiphrswan49@gmail.com`.
+- **N11 (Contact System)**: Contact submission saving to PostgreSQL first, then sending email notification via server-side Gmail to `jattiphrswan49@gmail.com` (credentials strictly server-side).
 - **N13 (SEO & Optimization)**: Favicon + SEO + AEO + GEO using authentic portfolio data only.
 
 ## Current Action
 
-N3 = **PASS** ✅  
-Waiting for approval to start **N4 — PostgreSQL + Prisma**.
+N5 = **PASS** ✅  
+Waiting for approval to start **N6 — Projects + Project Details**.
 
 
 

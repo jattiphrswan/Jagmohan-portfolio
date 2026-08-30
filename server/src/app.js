@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 
 import healthRouter from './routes/health.js';
+import profileRouter from './routes/profile.js';
 import { notFoundHandler } from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -53,6 +54,7 @@ if (NODE_ENV === 'development') {
 
 // ── Mount API Routes ─────────────────────────────────────────
 app.use('/api/health', healthRouter);
+app.use('/api/profile', profileRouter);
 
 // ── Error & 404 Handling ─────────────────────────────────────
 app.use(notFoundHandler);

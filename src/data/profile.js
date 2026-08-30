@@ -4,7 +4,8 @@ export const profile = {
   avatar: "profile.webp",
   banner: "Banner.jpg",
  // optional
-  company: "skyfish development",
+  company: "SkyFish Development",
+  location: "Delhi, India",
   projects: "80+",
 
   about:
@@ -110,8 +111,8 @@ export const profile = {
 
   education: [
     {
-      school: "Your College / Institute",
-      degree: "Your Degree",
+      school: "Academic Education",
+      degree: "Computer Applications & Web Technologies",
       start: "2019",
       end: "2022",
     },
