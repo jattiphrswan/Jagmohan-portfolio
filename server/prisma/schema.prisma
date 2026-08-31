@@ -108,3 +108,21 @@ model Skill {
 
   @@map("skills")
 }
+
+/// Certification model for N10 credentials & certificate management
+model Certification {
+  id            String   @id @default(uuid())
+  name          String
+  issuer        String?  // e.g. "Google", "freeCodeCamp", "LinkedIn Learning"
+  issueDate     String?  // e.g. "2025" or "Jan 2026"
+  credentialUrl String?  // Optional verification URL
+  imageUrl      String   // Persistent image URL or reference
+  imagePublicId String?  // Cloudinary or storage asset ID
+  description   String?  @db.Text
+  displayOrder  Int      @default(0)
+  featured      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("certifications")
+}

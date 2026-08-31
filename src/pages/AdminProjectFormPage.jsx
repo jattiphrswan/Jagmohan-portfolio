@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import SectionCard from '../components/SectionCard';
+import MediaUpload from '../components/MediaUpload';
 import { API_BASE } from '../config/api';
 import { FiArrowLeft, FiSave, FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
+
 
 export default function AdminProjectFormPage({ mode = 'create' }) {
   const { id } = useParams();
@@ -319,6 +321,17 @@ export default function AdminProjectFormPage({ mode = 'create' }) {
               className="w-full rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-slate-900 focus:border-[#0a66c2] focus:bg-white focus:outline-none"
             />
           </div>
+
+          {/* Project Featured Image Media Upload */}
+          <div className="pt-2 border-t border-slate-100">
+            <MediaUpload
+              label="Project Showcase Image"
+              value={formData.image}
+              onChange={(url) => setFormData((prev) => ({ ...prev, image: url }))}
+              placeholder="Upload project screenshot or banner image (PNG, JPG, WebP)"
+            />
+          </div>
+
 
           {/* Row 3: URLs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

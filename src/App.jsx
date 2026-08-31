@@ -18,7 +18,13 @@ import AdminProfilePage from "./pages/AdminProfilePage";
 import AdminExperiencePage from "./pages/AdminExperiencePage";
 import AdminExperienceFormPage from "./pages/AdminExperienceFormPage";
 import AdminSkillsPage from "./pages/AdminSkillsPage";
+import CertificationsPage from "./pages/CertificationsPage";
+import AdminCertificationsPage from "./pages/AdminCertificationsPage";
+import AdminCertificationFormPage from "./pages/AdminCertificationFormPage";
 import NotFoundPage from "./pages/NotFoundPage";
+
+
+
 
 export default function App() {
   return (
@@ -77,6 +83,14 @@ export default function App() {
           }
         />
         <Route
+          path="/certifications"
+          element={
+            <Layout>
+              <CertificationsPage />
+            </Layout>
+          }
+        />
+        <Route
           path="/contact"
           element={
             <Layout>
@@ -84,6 +98,7 @@ export default function App() {
             </Layout>
           }
         />
+
         {/* Admin Authentication & Control */}
         <Route
           path="/admin/login"
@@ -184,6 +199,37 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        {/* N10 Certifications Management */}
+        <Route
+          path="/admin/certifications"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <AdminCertificationsPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/certifications/new"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <AdminCertificationFormPage mode="create" />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/certifications/:id/edit"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <AdminCertificationFormPage mode="edit" />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="*"
           element={
@@ -192,6 +238,7 @@ export default function App() {
             </Layout>
           }
         />
+
 
       </Routes>
     </BrowserRouter>

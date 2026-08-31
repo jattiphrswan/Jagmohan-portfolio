@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 import SectionCard from '../components/SectionCard';
-import { FiShield, FiLogOut, FiUser, FiCheckCircle, FiFolder, FiMail } from 'react-icons/fi';
+import { FiShield, FiLogOut, FiUser, FiCheckCircle, FiFolder, FiAward } from 'react-icons/fi';
+
 
 export default function AdminDashboardPage() {
   const { admin, logout } = useAuth();
@@ -125,8 +126,30 @@ export default function AdminDashboardPage() {
             </Link>
           </div>
         </SectionCard>
+
+        {/* Certifications Card */}
+        <SectionCard title="Certifications" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-xs font-semibold text-indigo-600">
+              <FiAward />
+              <span>Licenses &amp; Badges</span>
+            </div>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Upload certificate images, issuers, dates, and credential URLs.
+            </p>
+          </div>
+          <div className="pt-2">
+            <Link
+              to="/admin/certifications"
+              className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-indigo-700 transition"
+            >
+              <span>Manage Certifications</span>
+            </Link>
+          </div>
+        </SectionCard>
       </div>
 
     </div>
   );
 }
+

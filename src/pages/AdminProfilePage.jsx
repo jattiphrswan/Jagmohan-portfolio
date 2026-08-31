@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SectionCard from '../components/SectionCard';
+import MediaUpload from '../components/MediaUpload';
 import { API_BASE } from '../config/api';
+
 import {
   FiUser,
   FiSave,
@@ -329,9 +331,29 @@ export default function AdminProfilePage() {
             </div>
           </div>
 
+          {/* Profile Imagery Upload */}
+          <div className="pt-3 border-t border-slate-100">
+            <h3 className="font-bold text-slate-900 mb-3">Profile Imagery</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <MediaUpload
+                label="Profile Avatar Picture"
+                value={formData.avatar}
+                onChange={(url) => setFormData((prev) => ({ ...prev, avatar: url }))}
+                placeholder="Upload avatar photo (PNG, JPG, WebP)"
+              />
+              <MediaUpload
+                label="Profile Cover / Banner Image"
+                value={formData.banner}
+                onChange={(url) => setFormData((prev) => ({ ...prev, banner: url }))}
+                placeholder="Upload background banner image"
+              />
+            </div>
+          </div>
+
           {/* Services & Tools */}
           <div className="pt-3 border-t border-slate-100">
             <h3 className="font-bold text-slate-900 mb-3">Services &amp; Tools Highlights</h3>
+
             <div className="space-y-4">
               <div>
                 <label htmlFor="services" className="block font-semibold text-slate-700 mb-1">

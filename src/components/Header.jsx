@@ -10,6 +10,7 @@ import {
   FiLayers,
   FiFolder,
   FiBriefcase,
+  FiAward,
   FiMail,
 } from "react-icons/fi";
 
@@ -24,10 +25,12 @@ export default function Header() {
       { label: "Experience", to: "/experience", icon: FiBriefcase },
       { label: "Skills", to: "/skills", icon: FiLayers },
       { label: "Projects", to: "/projects", icon: FiFolder },
+      { label: "Certifications", to: "/certifications", icon: FiAward },
       { label: "Contact", to: "/contact", icon: FiMail },
     ],
     []
   );
+
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)]">

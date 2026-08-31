@@ -42,8 +42,9 @@ src/
 | N7 | Admin Authentication | **PASS** |
 | N8 | Project CRUD | **PASS** |
 | N9 | Profile / Experience / Skills CRUD | **PASS** |
-| N10 | Media / Image Management | READY |
-| N11 | Contact Form + Gmail Notification | BLOCKED |
+| N10 | Media / Image Management + Certifications | **PASS** |
+| N11 | Contact Form + Gmail Notification | READY |
+
 
 | N12 | Admin Messages / Lead Inbox | BLOCKED |
 | N13 | SEO + Performance + Accessibility | BLOCKED |
@@ -172,16 +173,29 @@ src/
 - Verified frontend checks: `npm run lint` (0 errors, 0 warnings) & `npm run build` (PASS)
 - Verified backend verification: `test_n9_crud.mjs` (100% PASS across all 20 tests)
 
+## N10 — Media Management + Certifications (PASS)
+
+- Added `Certification` model to `server/prisma/schema.prisma`
+- Built persistent Media Upload API (`server/src/routes/adminMedia.js`) with MIME type checking, size enforcement (5MB limit), Cloudinary configuration integration, and development data fallback
+- Built public certifications endpoints (`server/src/routes/certifications.js`) and protected admin CRUD (`server/src/routes/adminCertifications.js`)
+- Built reusable frontend `MediaUpload.jsx` component supporting instant upload, image preview, removal, and replacement
+- Integrated `MediaUpload.jsx` into `AdminCertificationFormPage.jsx`, `AdminProjectFormPage.jsx`, and `AdminProfilePage.jsx`
+- Built frontend `AdminCertificationsPage.jsx` and `AdminCertificationFormPage.jsx` for full certifications management
+- Built public `CertificationsPage.jsx` (`/certifications`) with clean card layout and image lightbox viewer
+- Updated public navigation in `Header.jsx` and admin navigation in `AdminDashboardPage.jsx`
+- Verified frontend static checks: `npm run lint` (0 errors, 0 warnings) & `npm run build` (PASS)
+- Verified backend verification: `test_n10_certifications.mjs` (100% PASS across all 14 tests)
+
 ## Upcoming Roadmap Guidelines (Preserved)
 
-- **N10 (Media / Image Management)**: Media asset uploads and management.
 - **N11 (Contact System)**: Direct email notifications via server-side Gmail to `jattiphrswan49@gmail.com` (credentials strictly server-side).
 - **N13 (SEO & Optimization)**: Favicon + SEO + AEO + GEO using authentic portfolio data only.
 
 ## Current Action
 
-N9 = **PASS** ✅  
-NEXT: **N10 — Media / Image Management**
+N10 = **PASS** ✅  
+NEXT: **N11 — Contact Form + Gmail Notification**
+
 
 
 
