@@ -9,10 +9,12 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import cookieParser from 'cookie-parser';
 
 import healthRouter from './routes/health.js';
 import profileRouter from './routes/profile.js';
 import projectsRouter from './routes/projects.js';
+import authRouter from './routes/auth.js';
 import { notFoundHandler } from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -43,6 +45,7 @@ app.use(
   })
 );
 
+app.use(cookieParser());
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
@@ -62,6 +65,8 @@ if (NODE_ENV === 'development') {
 app.use('/api/health', healthRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/projects', projectsRouter);
+app.use('/api/auth', authRouter);
+
 
 // ── Error & 404 Handling ─────────────────────────────────────
 app.use(notFoundHandler);

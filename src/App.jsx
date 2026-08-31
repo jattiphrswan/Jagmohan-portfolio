@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthProvider from "./context/AuthProvider";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 import ProfilePage from "./pages/ProfilePage";
 import AboutPage from "./pages/AboutPage";
@@ -7,12 +9,16 @@ import ProjectDetailPage from "./pages/ProjectDetailPage";
 import ExperiencePage from "./pages/ExperiencePage";
 import SkillsPage from "./pages/SkillsPage";
 import ContactPage from "./pages/ContactPage";
+import LoginPage from "./pages/LoginPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+
         <Route
           path="/"
           element={
@@ -69,6 +75,25 @@ export default function App() {
             </Layout>
           }
         />
+        {/* Admin Authentication & Control */}
+        <Route
+          path="/admin/login"
+          element={
+            <Layout>
+              <LoginPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <AdminDashboardPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="*"
           element={
@@ -79,5 +104,7 @@ export default function App() {
         />
       </Routes>
     </BrowserRouter>
+  </AuthProvider>
+
   );
 }

@@ -1,6 +1,7 @@
 // Prisma Schema for Jagmohan Portfolio Backend
 // Node N4: PostgreSQL + Prisma Foundation
 // Node N6: Projects System
+// Node N7: Admin Authentication
 
 generator client {
   provider = "prisma-client-js"
@@ -39,4 +40,15 @@ model Project {
   updatedAt    DateTime @updatedAt
 
   @@map("projects")
+}
+
+/// Admin model for N7 private authentication
+model Admin {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admins")
 }
