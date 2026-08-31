@@ -43,12 +43,11 @@ src/
 | N8 | Project CRUD | **PASS** |
 | N9 | Profile / Experience / Skills CRUD | **PASS** |
 | N10 | Media / Image Management + Certifications | **PASS** |
-| N11 | Contact Form + Gmail Notification | READY |
-
-
-| N12 | Admin Messages / Lead Inbox | BLOCKED |
-| N13 | SEO + Performance + Accessibility | BLOCKED |
+| N11 | Contact Form + Gmail Notification | **PASS** |
+| N12 | Admin Messages / Lead Inbox | **SKIPPED BY DESIGN** (Gmail-only direct workflow) |
+| N13 | SEO + Performance + Accessibility | READY |
 | N14 | Production Deployment | BLOCKED |
+
 | N15 | Final Regression Testing | BLOCKED |
 
 ## N0 — Audit Summary (PASS)
@@ -186,15 +185,34 @@ src/
 - Verified frontend static checks: `npm run lint` (0 errors, 0 warnings) & `npm run build` (PASS)
 - Verified backend verification: `test_n10_certifications.mjs` (100% PASS across all 14 tests)
 
+## N11 — Gmail Contact Form (PASS)
+
+- Built Gmail SMTP mailer service (`server/src/services/mailer.js`) supporting Nodemailer over secure Gmail SMTP (port 465) with HTML/Text formatting, user input HTML escaping, header injection sanitization, and Reply-To configured directly to visitor's email address
+- Built public contact endpoint (`POST /api/contact` in `server/src/routes/contact.js`) with:
+  - Input validation for name (2-100 chars), email format, phone, company, project type, budget, and message (10-3000 chars)
+  - Honeypot bot protection (`website` / `_gotcha`)
+  - Rate limiting via `express-rate-limit` (5 submissions per 15 min per IP)
+  - Safe error handling without stack traces or SMTP credential exposure
+- Completely avoided database storage / models for contact messages (intentional Gmail-only workflow)
+- Updated frontend `ContactPage.jsx` with dynamic profile contact information, real-time submission states (submitting, success, error), and form reset
+- Updated `server/.env.example` with `GMAIL_USER=`, `GMAIL_APP_PASSWORD=`, `CONTACT_TO_EMAIL=`, `CONTACT_FROM_NAME=` placeholders
+- Verified frontend checks: `npm run lint` (0 errors, 0 warnings) & `npm run build` (PASS)
+- Verified backend verification: `test_n11_contact.mjs` (100% PASS across all tests)
+
+## N12 — Admin Messages / Lead Inbox (SKIPPED BY DESIGN)
+
+- Per architecture decision, all visitor enquiries are routed directly to Gmail with no database persistence.
+
 ## Upcoming Roadmap Guidelines (Preserved)
 
-- **N11 (Contact System)**: Direct email notifications via server-side Gmail to `jattiphrswan49@gmail.com` (credentials strictly server-side).
 - **N13 (SEO & Optimization)**: Favicon + SEO + AEO + GEO using authentic portfolio data only.
 
 ## Current Action
 
-N10 = **PASS** ✅  
-NEXT: **N11 — Contact Form + Gmail Notification**
+N11 = **PASS** ✅  
+N12 = **SKIPPED BY DESIGN**  
+NEXT: **N13 — SEO + Performance + Accessibility**
+
 
 
 

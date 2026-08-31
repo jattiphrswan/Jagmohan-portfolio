@@ -1,11 +1,14 @@
+import { useState } from "react";
 import SectionCard from "../components/SectionCard";
 import { useProfile } from "../context/useProfile";
+import { API_BASE } from "../config/api";
 import {
   FiPhone,
   FiMail,
-  FiMapPin,
   FiSend,
-  FiInfo,
+  FiAlertCircle,
+  FiCheckCircle,
+  FiLoader
 } from "react-icons/fi";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
@@ -34,11 +37,80 @@ function ContactItem({ icon: Icon, label, value, href }) {
 
 export default function ContactPage() {
   const { profile } = useProfile();
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("The contact backend will be connected in Node N11 with Gmail API.");
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    projectType: "wordpress",
+    budget: "flexible",
+    message: "",
+    website: "" // Honeypot field for bot protection
+  });
+
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    // Client-side validation
+    if (!formData.name.trim() || formData.name.trim().length < 2) {
+      setError("Please provide your name (at least 2 characters).");
+      return;
+    }
+
+    if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!formData.message.trim() || formData.message.trim().length < 10) {
+      setError("Please write a message with at least 10 characters.");
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      const res = await fetch(`${API_BASE}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+
+      const json = await res.json();
+
+      if (!res.ok || !json.success) {
+        throw new Error(json.message || "Failed to send message. Please try again shortly.");
+      }
+
+      setSuccess("Thanks! Your message has been sent. I'll get back to you soon.");
+      // Reset form on successful delivery
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        company: "",
+        projectType: "wordpress",
+        budget: "flexible",
+        message: "",
+        website: ""
+      });
+    } catch (err) {
+      setError(err.message || "Message could not be sent right now. Please try again shortly.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className="mx-auto max-w-4xl space-y-5">
@@ -75,143 +147,199 @@ export default function ContactPage() {
         </div>
       </SectionCard>
 
-      {/* Form Visual System Prototype (Backend in N11) */}
+      {/* Contact Enquiry Form */}
       <SectionCard
         title="Send an Enquiry"
-        subtitle="Visual form system — full backend submission connects in Node N11"
+        subtitle="Direct message notification to Jagmohan's Gmail"
       >
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Success Alert */}
+        {success && (
+          <div className="mb-4 flex items-center gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs text-emerald-800">
+            <FiCheckCircle className="text-lg shrink-0 text-emerald-600" />
+            <span className="font-medium">{success}</span>
+          </div>
+        )}
+
+        {/* Error Alert */}
+        {error && (
+          <div className="mb-4 flex items-center gap-2.5 rounded-xl border border-red-200 bg-red-50 p-4 text-xs text-red-700">
+            <FiAlertCircle className="text-lg shrink-0 text-red-500" />
+            <span className="font-medium">{error}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          {/* Honeypot Bot Trap (Invisible to real users, trapped bots fill it) */}
+          <div style={{ display: "none" }} aria-hidden="true">
+            <label htmlFor="website">Leave this field blank</label>
+            <input
+              id="website"
+              name="website"
+              type="text"
+              value={formData.website}
+              onChange={handleChange}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-xs font-semibold text-slate-700 mb-1">
+              <label htmlFor="name" className="block font-semibold text-slate-700 mb-1">
                 Your Name <span className="text-red-500">*</span>
               </label>
               <input
                 id="name"
                 name="name"
                 type="text"
+                value={formData.name}
+                onChange={handleChange}
                 required
+                disabled={submitting}
                 placeholder="e.g. Rahul Sharma"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2]"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2] disabled:opacity-60"
               />
             </div>
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-xs font-semibold text-slate-700 mb-1">
+              <label htmlFor="email" className="block font-semibold text-slate-700 mb-1">
                 Your Email <span className="text-red-500">*</span>
               </label>
               <input
                 id="email"
                 name="email"
                 type="email"
+                value={formData.email}
+                onChange={handleChange}
                 required
+                disabled={submitting}
                 placeholder="you@example.com"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2]"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2] disabled:opacity-60"
               />
             </div>
 
             {/* Phone */}
             <div>
-              <label htmlFor="phone" className="block text-xs font-semibold text-slate-700 mb-1">
+              <label htmlFor="phone" className="block font-semibold text-slate-700 mb-1">
                 Phone Number (Optional)
               </label>
               <input
                 id="phone"
                 name="phone"
                 type="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                disabled={submitting}
                 placeholder="+91 98765 43210"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2]"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2] disabled:opacity-60"
               />
             </div>
 
             {/* Company */}
             <div>
-              <label htmlFor="company" className="block text-xs font-semibold text-slate-700 mb-1">
-                Company / Organization
+              <label htmlFor="company" className="block font-semibold text-slate-700 mb-1">
+                Company / Organization (Optional)
               </label>
               <input
                 id="company"
                 name="company"
                 type="text"
+                value={formData.company}
+                onChange={handleChange}
+                disabled={submitting}
                 placeholder="e.g. Acme Corp"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2]"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2] disabled:opacity-60"
               />
             </div>
 
             {/* Project Type */}
             <div>
-              <label htmlFor="projectType" className="block text-xs font-semibold text-slate-700 mb-1">
-                Project Type
+              <label htmlFor="projectType" className="block font-semibold text-slate-700 mb-1">
+                Project Type / Subject
               </label>
               <select
                 id="projectType"
                 name="projectType"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-900 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2]"
+                value={formData.projectType}
+                onChange={handleChange}
+                disabled={submitting}
+                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2] disabled:opacity-60"
               >
-                <option value="wordpress">WordPress Website / WooCommerce</option>
-                <option value="frontend">Custom React / Tailwind Frontend</option>
-                <option value="redesign">Website Redesign / UI Polish</option>
-                <option value="fulltime">Full-Time / Contract Role</option>
-                <option value="other">Other Inquiry</option>
+                <option value="WordPress Website / WooCommerce">WordPress Website / WooCommerce</option>
+                <option value="Custom React / Tailwind Frontend">Custom React / Tailwind Frontend</option>
+                <option value="Website Redesign / UI Polish">Website Redesign / UI Polish</option>
+                <option value="Full-Time / Contract Role">Full-Time / Contract Role</option>
+                <option value="General Inquiry">General Inquiry</option>
               </select>
             </div>
 
             {/* Budget */}
             <div>
-              <label htmlFor="budget" className="block text-xs font-semibold text-slate-700 mb-1">
+              <label htmlFor="budget" className="block font-semibold text-slate-700 mb-1">
                 Estimated Budget (Optional)
               </label>
               <select
                 id="budget"
                 name="budget"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-900 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2]"
+                value={formData.budget}
+                onChange={handleChange}
+                disabled={submitting}
+                className="w-full rounded-lg border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-900 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2] disabled:opacity-60"
               >
-                <option value="flexible">Flexible / Discussion</option>
-                <option value="small">&lt; $500 (Basic Website)</option>
-                <option value="medium">$500 – $1,500 (Custom CMS / Store)</option>
-                <option value="large">$1,500+ (Full Web App / Enterprise)</option>
+                <option value="Flexible / Discussion">Flexible / Discussion</option>
+                <option value="< $500 (Basic Website)">&lt; $500 (Basic Website)</option>
+                <option value="$500 – $1,500 (Custom CMS / Store)">$500 – $1,500 (Custom CMS / Store)</option>
+                <option value="$1,500+ (Full Web App / Enterprise)">$1,500+ (Full Web App / Enterprise)</option>
               </select>
             </div>
           </div>
 
           {/* Message */}
           <div>
-            <label htmlFor="message" className="block text-xs font-semibold text-slate-700 mb-1">
+            <label htmlFor="message" className="block font-semibold text-slate-700 mb-1">
               Project Details / Message <span className="text-red-500">*</span>
             </label>
             <textarea
               id="message"
               name="message"
               rows={4}
+              value={formData.message}
+              onChange={handleChange}
               required
-              placeholder="Describe your project, timeline, or inquiry..."
-              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 p-3 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2]"
-            ></textarea>
-          </div>
-
-          {/* Backend Info Notice */}
-          <div className="flex items-center gap-2 rounded-lg bg-slate-50 border border-slate-100 p-3 text-[11px] text-slate-500">
-            <FiInfo className="text-slate-400 text-sm shrink-0" />
-            <span>
-              In Node N11, this form will validate via Zod, store in PostgreSQL, and send instant notification to <strong>jattiphrswan49@gmail.com</strong> via Resend API.
-            </span>
+              disabled={submitting}
+              placeholder="Describe your project, timeline, or requirements..."
+              className="w-full rounded-lg border border-slate-200 bg-slate-50/50 p-3 text-xs text-slate-900 placeholder-slate-400 transition focus:border-[#0a66c2] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#0a66c2] disabled:opacity-60"
+            />
           </div>
 
           {/* Submit Button */}
-          <div className="pt-2">
+          <div className="pt-2 flex items-center justify-between">
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#0a66c2] px-6 py-2.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-[#004182] active:scale-95 cursor-pointer"
+              disabled={submitting}
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#0a66c2] px-6 py-2.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-[#004182] active:scale-95 disabled:opacity-60 cursor-pointer"
             >
-              <FiSend className="text-sm" />
-              <span>Send Message</span>
+              {submitting ? (
+                <>
+                  <FiLoader className="text-sm animate-spin" />
+                  <span>Sending enquiry...</span>
+                </>
+              ) : (
+                <>
+                  <FiSend className="text-sm" />
+                  <span>Send Message</span>
+                </>
+              )}
             </button>
+
+            <span className="text-[11px] text-slate-400">
+              Direct delivery to Jagmohan's Gmail
+            </span>
           </div>
         </form>
       </SectionCard>
     </div>
   );
 }
-

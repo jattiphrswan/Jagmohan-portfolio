@@ -15,7 +15,9 @@ import healthRouter from './routes/health.js';
 import profileRouter from './routes/profile.js';
 import projectsRouter from './routes/projects.js';
 import certificationsRouter from './routes/certifications.js';
+import contactRouter from './routes/contact.js';
 import adminProjectsRouter from './routes/adminProjects.js';
+
 import adminProfileRouter from './routes/adminProfile.js';
 import adminExperienceRouter from './routes/adminExperience.js';
 import adminSkillsRouter from './routes/adminSkills.js';
@@ -75,7 +77,9 @@ app.use('/api/health', healthRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/projects', projectsRouter);
 app.use('/api/certifications', certificationsRouter);
+app.use('/api/contact', contactRouter);
 app.use('/api/admin/projects', adminProjectsRouter);
+
 app.use('/api/admin/profile', adminProfileRouter);
 app.use('/api/admin/experience', adminExperienceRouter);
 app.use('/api/admin/skills', adminSkillsRouter);
