@@ -1,5 +1,5 @@
 import SectionCard from "../components/SectionCard";
-import { profile } from "../data/profile";
+import { useProfile } from "../context/useProfile";
 import {
   FiPhone,
   FiMail,
@@ -10,7 +10,7 @@ import {
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 function ContactItem({ icon: Icon, label, value, href }) {
-  if (!href) return null;
+  if (!href || !value) return null;
   const isExternal = href.startsWith("http");
   return (
     <div className="flex items-start gap-3 rounded-lg border border-slate-100 bg-slate-50/60 p-3 text-xs">
@@ -33,10 +33,12 @@ function ContactItem({ icon: Icon, label, value, href }) {
 }
 
 export default function ContactPage() {
+  const { profile } = useProfile();
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("The contact backend will be connected in Node N11 with Resend API & PostgreSQL.");
+    alert("The contact backend will be connected in Node N11 with Gmail API.");
   };
+
 
   return (
     <div className="mx-auto max-w-4xl space-y-5">

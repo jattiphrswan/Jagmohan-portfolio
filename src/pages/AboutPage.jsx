@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import SectionCard from "../components/SectionCard";
-import { profile } from "../data/profile";
+import { useProfile } from "../context/useProfile";
 import { FiCheckCircle, FiTool, FiUser, FiBriefcase, FiMapPin, FiMail, FiPhone } from "react-icons/fi";
 
 export default function AboutPage() {
+  const { profile } = useProfile();
+
   return (
     <div className="mx-auto max-w-4xl space-y-5">
       {/* Profile Overview Card */}

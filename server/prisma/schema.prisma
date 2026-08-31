@@ -54,3 +54,57 @@ model Admin {
 
   @@map("admins")
 }
+
+/// Profile model for N9 singleton profile & about management
+model Profile {
+  id            String   @id @default(uuid())
+  name          String
+  headline      String
+  location      String
+  about         String   @db.Text
+  company       String?
+  projectsCount String?  @default("80+")
+  email         String?
+  phone         String?
+  linkedin      String?
+  github        String?
+  avatar        String?
+  banner        String?
+  services      String[]
+  tools         String[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+/// Experience model for N9 work history CRUD
+model Experience {
+  id           String   @id @default(uuid())
+  role         String
+  company      String
+  type         String?  // e.g. "Full-time", "Internship", "Contract"
+  start        String
+  end          String?  // e.g. "Present" or "2025"
+  isCurrent    Boolean  @default(false)
+  location     String?
+  bullets      String[]
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("experiences")
+}
+
+/// Skill model for N9 skills catalogue CRUD
+model Skill {
+  id           String   @id @default(uuid())
+  name         String
+  category     String?  // e.g. "Frontend", "WordPress", "Design Tools", "Backend"
+  displayOrder Int      @default(0)
+  featured     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("skills")
+}

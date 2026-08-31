@@ -1,8 +1,10 @@
 import SectionCard from "../components/SectionCard";
-import { profile } from "../data/profile";
+import { useProfile } from "../context/useProfile";
 import { FiChevronDown, FiBriefcase, FiMapPin, FiCalendar } from "react-icons/fi";
 
 export default function ExperiencePage() {
+  const { profile } = useProfile();
+
   return (
     <div className="mx-auto max-w-4xl space-y-5">
       <SectionCard

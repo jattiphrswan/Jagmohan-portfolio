@@ -41,49 +41,92 @@ export default function AdminDashboardPage() {
       </SectionCard>
 
       {/* Overview Status Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <SectionCard title="N7 Authentication" bodyClassName="p-4 space-y-2">
-          <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600">
-            <FiCheckCircle />
-            <span>Active &amp; Verified</span>
-          </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
-            JWT-signed HttpOnly cookie session active with bcrypt password protection.
-          </p>
-        </SectionCard>
-
-        <SectionCard title="Projects Management" bodyClassName="p-4 space-y-2">
-          <div className="flex items-center justify-between">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Projects Card */}
+        <SectionCard title="Projects" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
+          <div className="space-y-2">
             <div className="flex items-center gap-2 text-xs font-semibold text-blue-600">
               <FiFolder />
-              <span>N8 Project CRUD Active</span>
+              <span>Projects Catalogue</span>
             </div>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Create, edit, feature, and delete showcase projects.
+            </p>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
-            Create, edit, reorder, feature, and delete portfolio project records.
-          </p>
           <div className="pt-2">
             <Link
               to="/admin/projects"
               className="inline-flex items-center gap-1.5 rounded-full bg-[#0a66c2] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#004182] transition"
             >
-              <FiFolder className="text-xs" />
               <span>Manage Projects</span>
             </Link>
           </div>
         </SectionCard>
 
-
-        <SectionCard title="Upcoming: N12 Leads Inbox" bodyClassName="p-4 space-y-2">
-          <div className="flex items-center gap-2 text-xs font-semibold text-purple-600">
-            <FiMail />
-            <span>Scheduled</span>
+        {/* Profile Card */}
+        <SectionCard title="Profile &amp; About" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600">
+              <FiUser />
+              <span>Profile Settings</span>
+            </div>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Update headline, location, bio summary, and contact channels.
+            </p>
           </div>
-          <p className="text-xs text-slate-500 leading-relaxed">
-            Message viewer and contact form inquiry management.
-          </p>
+          <div className="pt-2">
+            <Link
+              to="/admin/profile"
+              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 transition"
+            >
+              <span>Edit Profile</span>
+            </Link>
+          </div>
+        </SectionCard>
+
+        {/* Experience Card */}
+        <SectionCard title="Experience" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-xs font-semibold text-purple-600">
+              <FiCheckCircle />
+              <span>Career History</span>
+            </div>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Manage past and current employment, achievements, and order.
+            </p>
+          </div>
+          <div className="pt-2">
+            <Link
+              to="/admin/experience"
+              className="inline-flex items-center gap-1.5 rounded-full bg-purple-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-purple-700 transition"
+            >
+              <span>Manage Experience</span>
+            </Link>
+          </div>
+        </SectionCard>
+
+        {/* Skills Card */}
+        <SectionCard title="Skills" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-xs font-semibold text-amber-600">
+              <FiShield />
+              <span>Expertise &amp; Tools</span>
+            </div>
+            <p className="text-xs text-slate-500 leading-relaxed">
+              Manage frontend, WordPress, design tools, and categories.
+            </p>
+          </div>
+          <div className="pt-2">
+            <Link
+              to="/admin/skills"
+              className="inline-flex items-center gap-1.5 rounded-full bg-amber-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 transition"
+            >
+              <span>Manage Skills</span>
+            </Link>
+          </div>
         </SectionCard>
       </div>
+
     </div>
   );
 }

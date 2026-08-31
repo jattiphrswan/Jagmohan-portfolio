@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import SectionCard from "../components/SectionCard";
-import { profile } from "../data/profile";
+import { useProfile } from "../context/useProfile";
 import {
   FiPhone,
   FiMail,
@@ -15,12 +15,15 @@ import {
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 export default function ProfilePage() {
+  const { profile } = useProfile();
+
   const contactItems = [
-    { key: "phone", Icon: FiPhone, label: "Phone", href: profile?.contact?.phone?.href, text: profile?.contact?.phone?.label },
-    { key: "email", Icon: FiMail, label: "Email", href: profile?.contact?.email?.href, text: profile?.contact?.email?.label },
-    { key: "linkedin", Icon: FaLinkedin, label: "LinkedIn", href: profile?.contact?.linkedin?.href, text: "LinkedIn Profile" },
-    { key: "github", Icon: FaGithub, label: "GitHub", href: profile?.contact?.github?.href, text: "GitHub Profile" },
+    { key: "phone", Icon: FiPhone, label: "Phone", href: profile?.contact?.phone?.href || (profile?.phone ? `tel:${profile.phone.replace(/\s+/g, '')}` : null), text: profile?.contact?.phone?.label || profile?.phone },
+    { key: "email", Icon: FiMail, label: "Email", href: profile?.contact?.email?.href || (profile?.email ? `mailto:${profile.email}` : null), text: profile?.contact?.email?.label || profile?.email },
+    { key: "linkedin", Icon: FaLinkedin, label: "LinkedIn", href: profile?.contact?.linkedin?.href || profile?.linkedin, text: "LinkedIn Profile" },
+    { key: "github", Icon: FaGithub, label: "GitHub", href: profile?.contact?.github?.href || profile?.github, text: "GitHub Profile" },
   ];
+
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[minmax(250px,280px)_minmax(0,1fr)_minmax(250px,280px)] xl:grid-cols-[minmax(260px,290px)_minmax(0,1fr)_minmax(260px,290px)] gap-5 items-start">

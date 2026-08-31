@@ -41,9 +41,10 @@ src/
 | N6 | Projects + Project Details | **PASS** |
 | N7 | Admin Authentication | **PASS** |
 | N8 | Project CRUD | **PASS** |
-| N9 | Profile / Experience / Skills CRUD | READY |
-| N10 | Media / Image Management | BLOCKED |
+| N9 | Profile / Experience / Skills CRUD | **PASS** |
+| N10 | Media / Image Management | READY |
 | N11 | Contact Form + Gmail Notification | BLOCKED |
+
 | N12 | Admin Messages / Lead Inbox | BLOCKED |
 | N13 | SEO + Performance + Accessibility | BLOCKED |
 | N14 | Production Deployment | BLOCKED |
@@ -153,16 +154,35 @@ src/
 - Frontend regression test: `npm run lint` & `npm run build` (PASS, 0 errors, 0 warnings)
 - Backend verification: `test_n8_crud.mjs` (PASS, all 10 CRUD and public sync tests verified)
 
+## N9 — Profile / Experience / Skills CRUD (PASS)
+
+- Added `Profile`, `Experience`, and `Skill` models to `server/prisma/schema.prisma`
+- Built protected Admin routers:
+  - `server/src/routes/adminProfile.js` (`/api/admin/profile` — `GET`, `PUT`)
+  - `server/src/routes/adminExperience.js` (`/api/admin/experience` — `GET`, `GET /:id`, `POST`, `PUT /:id`, `DELETE /:id`)
+  - `server/src/routes/adminSkills.js` (`/api/admin/skills` — `GET`, `GET /:id`, `POST`, `PUT /:id`, `DELETE /:id`)
+- Built unified public profile endpoint (`server/src/routes/profile.js`) with `/experience` and `/skills` sub-routes
+- Built frontend Admin Management interfaces:
+  - `AdminProfilePage.jsx` (`/admin/profile`)
+  - `AdminExperiencePage.jsx` (`/admin/experience`)
+  - `AdminExperienceFormPage.jsx` (`/admin/experience/new`, `/admin/experience/:id/edit`)
+  - `AdminSkillsPage.jsx` (`/admin/skills`)
+- Created `ProfileContext.js` and `ProfileProvider.jsx` hook to dynamically synchronize live database updates across all public pages (`ProfilePage`, `AboutPage`, `ExperiencePage`, `SkillsPage`, `ContactPage`)
+- Updated `AdminDashboardPage.jsx` with direct navigation cards to all 4 management areas
+- Verified frontend checks: `npm run lint` (0 errors, 0 warnings) & `npm run build` (PASS)
+- Verified backend verification: `test_n9_crud.mjs` (100% PASS across all 20 tests)
+
 ## Upcoming Roadmap Guidelines (Preserved)
 
-- **N9 (Profile / Experience / Skills CRUD)**: Admin management for bio, experience, skills, and tools.
-- **N11 (Contact System)**: Contact submission saving to PostgreSQL first, then sending email notification via server-side Gmail to `jattiphrswan49@gmail.com` (credentials strictly server-side).
+- **N10 (Media / Image Management)**: Media asset uploads and management.
+- **N11 (Contact System)**: Direct email notifications via server-side Gmail to `jattiphrswan49@gmail.com` (credentials strictly server-side).
 - **N13 (SEO & Optimization)**: Favicon + SEO + AEO + GEO using authentic portfolio data only.
 
 ## Current Action
 
-N8 = **PASS** ✅  
-NEXT: **N9 — Profile / Experience / Skills CRUD**
+N9 = **PASS** ✅  
+NEXT: **N10 — Media / Image Management**
+
 
 
 

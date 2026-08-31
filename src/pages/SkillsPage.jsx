@@ -1,8 +1,10 @@
 import SectionCard from "../components/SectionCard";
-import { profile } from "../data/profile";
+import { useProfile } from "../context/useProfile";
 import { FiCheck, FiLayers, FiCode, FiLayout, FiCpu } from "react-icons/fi";
 
 export default function SkillsPage() {
+  const { profile } = useProfile();
+
   const categories = [
     {
       name: "Front-End Development",
