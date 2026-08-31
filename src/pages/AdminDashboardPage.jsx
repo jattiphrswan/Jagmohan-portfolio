@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
 import SectionCard from '../components/SectionCard';
 import { FiShield, FiLogOut, FiUser, FiCheckCircle, FiFolder, FiMail } from 'react-icons/fi';
@@ -51,15 +52,27 @@ export default function AdminDashboardPage() {
           </p>
         </SectionCard>
 
-        <SectionCard title="Upcoming: N8 Projects CRUD" bodyClassName="p-4 space-y-2">
-          <div className="flex items-center gap-2 text-xs font-semibold text-blue-600">
-            <FiFolder />
-            <span>Next Stage</span>
+        <SectionCard title="Projects Management" bodyClassName="p-4 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs font-semibold text-blue-600">
+              <FiFolder />
+              <span>N8 Project CRUD Active</span>
+            </div>
           </div>
           <p className="text-xs text-slate-500 leading-relaxed">
-            Admin interface to create, edit, reorder, and delete portfolio projects.
+            Create, edit, reorder, feature, and delete portfolio project records.
           </p>
+          <div className="pt-2">
+            <Link
+              to="/admin/projects"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#0a66c2] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#004182] transition"
+            >
+              <FiFolder className="text-xs" />
+              <span>Manage Projects</span>
+            </Link>
+          </div>
         </SectionCard>
+
 
         <SectionCard title="Upcoming: N12 Leads Inbox" bodyClassName="p-4 space-y-2">
           <div className="flex items-center gap-2 text-xs font-semibold text-purple-600">

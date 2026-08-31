@@ -1,7 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 import SectionCard from '../components/SectionCard';
 import ProjectCard from '../components/ProjectCard';
+import { API_BASE } from '../config/api';
 import { FiFolder, FiSearch, FiFilter, FiAlertCircle } from 'react-icons/fi';
+
 
 // Verified fallback projects based on authentic repository content
 const initialProjects = [
@@ -79,8 +81,9 @@ export default function ProjectsPage() {
     async function fetchProjects() {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5000/api/projects');
+        const res = await fetch(`${API_BASE}/api/projects`);
         if (res.ok) {
+
           const json = await res.json();
           if (isMounted && Array.isArray(json.data) && json.data.length > 0) {
             setProjects(json.data);

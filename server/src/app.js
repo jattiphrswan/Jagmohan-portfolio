@@ -14,6 +14,7 @@ import cookieParser from 'cookie-parser';
 import healthRouter from './routes/health.js';
 import profileRouter from './routes/profile.js';
 import projectsRouter from './routes/projects.js';
+import adminProjectsRouter from './routes/adminProjects.js';
 import authRouter from './routes/auth.js';
 import { notFoundHandler } from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -65,7 +66,9 @@ if (NODE_ENV === 'development') {
 app.use('/api/health', healthRouter);
 app.use('/api/profile', profileRouter);
 app.use('/api/projects', projectsRouter);
+app.use('/api/admin/projects', adminProjectsRouter);
 app.use('/api/auth', authRouter);
+
 
 
 // ── Error & 404 Handling ─────────────────────────────────────

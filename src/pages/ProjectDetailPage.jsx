@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import SectionCard from '../components/SectionCard';
+import { API_BASE } from '../config/api';
 import {
   FiArrowLeft,
   FiExternalLink,
@@ -11,6 +12,7 @@ import {
   FiCalendar,
   FiAlertCircle,
 } from 'react-icons/fi';
+
 
 const fallbackProjects = {
   'skyfish-wordpress-ecommerce': {
@@ -82,15 +84,18 @@ export default function ProjectDetailPage() {
     async function fetchProject() {
       try {
         setLoading(true);
-        const res = await fetch(`http://localhost:5000/api/projects/${slug}`);
+        const res = await fetch(`${API_BASE}/api/projects/${slug}`);
         if (res.ok) {
           const json = await res.json();
           if (isMounted && json.data) {
             setProject(json.data);
             setNotFound(false);
           }
-        } else if (res.status === 404 && !fallbackProjects[slug]) {
-          if (isMounted) setNotFound(true);
+        } else if (res.status === 404) {
+          if (isMounted) {
+            setNotFound(true);
+            setProject(null);
+          }
         }
       } catch {
         // Fallback already in place
@@ -98,6 +103,7 @@ export default function ProjectDetailPage() {
         if (isMounted) setLoading(false);
       }
     }
+
     fetchProject();
     return () => {
       isMounted = false;

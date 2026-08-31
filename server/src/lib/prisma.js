@@ -20,5 +20,22 @@ if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
 }
 
+/**
+ * Executes a database query with a timeout for fast fallback in dev/test
+ */
+export async function safeDbQuery(queryFn, timeoutMs = 800) {
+  try {
+    return await Promise.race([
+      queryFn(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('DB_TIMEOUT')), timeoutMs)
+      )
+    ]);
+  } catch {
+    return null;
+  }
+}
+
 export default prisma;
+
 

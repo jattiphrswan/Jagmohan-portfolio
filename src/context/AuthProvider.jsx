@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AuthContext } from './AuthContext';
+import { API_BASE } from '../config/api';
 
 export default function AuthProvider({ children }) {
   const [admin, setAdmin] = useState(null);
@@ -9,9 +10,10 @@ export default function AuthProvider({ children }) {
   const checkAuth = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:5000/api/auth/me', {
+      const res = await fetch(`${API_BASE}/api/auth/me`, {
         credentials: 'include'
       });
+
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.admin) {
@@ -35,7 +37,7 @@ export default function AuthProvider({ children }) {
 
   // Login handler
   const login = async (email, password) => {
-    const res = await fetch('http://localhost:5000/api/auth/login', {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -55,7 +57,7 @@ export default function AuthProvider({ children }) {
   // Logout handler
   const logout = async () => {
     try {
-      await fetch('http://localhost:5000/api/auth/logout', {
+      await fetch(`${API_BASE}/api/auth/logout`, {
         method: 'POST',
         credentials: 'include'
       });
@@ -65,6 +67,7 @@ export default function AuthProvider({ children }) {
       setAdmin(null);
     }
   };
+
 
   return (
     <AuthContext.Provider value={{ admin, loading, login, logout, checkAuth }}>

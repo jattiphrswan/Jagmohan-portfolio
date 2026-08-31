@@ -11,6 +11,8 @@ import SkillsPage from "./pages/SkillsPage";
 import ContactPage from "./pages/ContactPage";
 import LoginPage from "./pages/LoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminProjectsPage from "./pages/AdminProjectsPage";
+import AdminProjectFormPage from "./pages/AdminProjectFormPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
@@ -95,6 +97,36 @@ export default function App() {
           }
         />
         <Route
+          path="/admin/projects"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <AdminProjectsPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/projects/new"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <AdminProjectFormPage mode="create" />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/projects/:id/edit"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <AdminProjectFormPage mode="edit" />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="*"
           element={
             <Layout>
@@ -102,6 +134,7 @@ export default function App() {
             </Layout>
           }
         />
+
       </Routes>
     </BrowserRouter>
   </AuthProvider>

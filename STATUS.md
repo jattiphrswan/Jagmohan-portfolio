@@ -40,8 +40,8 @@ src/
 | N5 | Public Profile Pages | **PASS** |
 | N6 | Projects + Project Details | **PASS** |
 | N7 | Admin Authentication | **PASS** |
-| N8 | Project CRUD | READY |
-| N9 | Profile / Experience / Skills CRUD | BLOCKED |
+| N8 | Project CRUD | **PASS** |
+| N9 | Profile / Experience / Skills CRUD | READY |
 | N10 | Media / Image Management | BLOCKED |
 | N11 | Contact Form + Gmail Notification | BLOCKED |
 | N12 | Admin Messages / Lead Inbox | BLOCKED |
@@ -141,16 +141,28 @@ src/
 - Frontend regression test: `npm run lint` & `npm run build` (PASS, 0 errors, 0 warnings)
 - Backend verification: `test_n7_auth.mjs` (PASS, valid login, invalid password rejected, unknown email rejected, protected endpoint rejected, session preserved, logout clears cookie)
 
+## N8 — Project CRUD (PASS)
+
+- Added `status` field to Prisma `Project` data model (`server/prisma/schema.prisma`)
+- Built protected Admin Projects CRUD router (`server/src/routes/adminProjects.js`) mounted at `/api/admin/projects` (`GET`, `GET /:id`, `POST`, `PUT /:id`, `DELETE /:id`)
+- Implemented slug normalization, uniqueness enforcement, validation, and safe error handling
+- Synchronized active project records across both admin management and public projects API
+- Built frontend `AdminProjectsPage.jsx` (`/admin/projects`) with table overview, status pills, featured indicators, and delete confirmation modal
+- Built `AdminProjectFormPage.jsx` supporting both create (`/admin/projects/new`) and edit (`/admin/projects/:id/edit`) modes
+- Updated `AdminDashboardPage.jsx` with direct navigation to Projects Management
+- Frontend regression test: `npm run lint` & `npm run build` (PASS, 0 errors, 0 warnings)
+- Backend verification: `test_n8_crud.mjs` (PASS, all 10 CRUD and public sync tests verified)
+
 ## Upcoming Roadmap Guidelines (Preserved)
 
-- **N8 (Project CRUD)**: Full CRUD backend and admin dashboard for projects library.
+- **N9 (Profile / Experience / Skills CRUD)**: Admin management for bio, experience, skills, and tools.
 - **N11 (Contact System)**: Contact submission saving to PostgreSQL first, then sending email notification via server-side Gmail to `jattiphrswan49@gmail.com` (credentials strictly server-side).
 - **N13 (SEO & Optimization)**: Favicon + SEO + AEO + GEO using authentic portfolio data only.
 
 ## Current Action
 
-N7 = **PASS** ✅  
-NEXT: **N8 — Project CRUD**
+N8 = **PASS** ✅  
+NEXT: **N9 — Profile / Experience / Skills CRUD**
 
 
 

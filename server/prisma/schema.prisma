@@ -36,11 +36,13 @@ model Project {
   githubUrl    String?
   featured     Boolean  @default(false)
   order        Int      @default(0)
+  status       String   @default("published") // "published" | "draft"
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
   @@map("projects")
 }
+
 
 /// Admin model for N7 private authentication
 model Admin {
