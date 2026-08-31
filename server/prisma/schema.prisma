@@ -1,5 +1,6 @@
 // Prisma Schema for Jagmohan Portfolio Backend
 // Node N4: PostgreSQL + Prisma Foundation
+// Node N6: Projects System
 
 generator client {
   provider = "prisma-client-js"
@@ -17,4 +18,25 @@ model DatabaseHealth {
   checkedAt DateTime @default(now())
 
   @@map("database_health")
+}
+
+/// Project model for N6 projects catalogue and detail views
+model Project {
+  id           String   @id @default(uuid())
+  slug         String   @unique
+  title        String
+  description  String
+  overview     String?  @db.Text
+  category     String   // e.g., "WordPress", "Front-End", "WooCommerce"
+  image        String?  // Image path or URL
+  technologies String[] // Array of technology tags
+  role         String?  // e.g., "Senior WordPress Developer", "Front-End Engineer"
+  liveUrl      String?
+  githubUrl    String?
+  featured     Boolean  @default(false)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("projects")
 }

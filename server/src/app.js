@@ -12,6 +12,7 @@ import helmet from 'helmet';
 
 import healthRouter from './routes/health.js';
 import profileRouter from './routes/profile.js';
+import projectsRouter from './routes/projects.js';
 import { notFoundHandler } from './middleware/notFound.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -60,6 +61,7 @@ if (NODE_ENV === 'development') {
 // ── Mount API Routes ─────────────────────────────────────────
 app.use('/api/health', healthRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/projects', projectsRouter);
 
 // ── Error & 404 Handling ─────────────────────────────────────
 app.use(notFoundHandler);

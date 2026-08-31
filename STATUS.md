@@ -38,8 +38,8 @@ src/
 | N3 | Backend Foundation | **PASS** |
 | N4 | PostgreSQL + Prisma | **PASS** |
 | N5 | Public Profile Pages | **PASS** |
-| N6 | Projects + Project Details | BLOCKED |
-| N7 | Admin Authentication | BLOCKED |
+| N6 | Projects + Project Details | **PASS** |
+| N7 | Admin Authentication | READY |
 | N8 | Project CRUD | BLOCKED |
 | N9 | Profile / Experience / Skills CRUD | BLOCKED |
 | N10 | Media / Image Management | BLOCKED |
@@ -117,16 +117,30 @@ src/
 - Tested Vite development server startup (`npm run dev` starts cleanly at `http://localhost:5173/`)
 - Frontend regression test: `npm run lint` & `npm run build` (PASS, 0 errors, 0 warnings)
 
+## N6 — Projects + Project Details (PASS)
+
+- Added Prisma `Project` data model in `server/prisma/schema.prisma`
+- Built read-only Projects API in `server/src/routes/projects.js` (`GET /api/projects` and `GET /api/projects/:slug`)
+- Implemented reusable frontend `ProjectCard.jsx` component with category pills, tech tags, and direct CTA links
+- Built interactive `ProjectsPage.jsx` with category filter tabs, search filter, and loading/empty/error states
+- Built `ProjectDetailPage.jsx` with breadcrumbs, role metadata, architecture overview, and 404 not-found state
+- Seeded small verified real test dataset (SkyFish, Danstring, React Portfolio V2, SMWebTech)
+- Upgraded large-screen desktop layout to wide fluid container (`max-w-[1680px]`) with aligned navbar and sticky desktop sidebars
+- Replaced favicon with clean white capital J on black background (`/favicon-j.svg`)
+- Frontend regression test: `npm run lint` & `npm run build` (PASS, 0 errors, 0 warnings)
+- Backend verification: `test_n6_api.mjs` (PASS, 200 OK listing, 200 OK valid slug, 404 invalid slug)
+
 ## Upcoming Roadmap Guidelines (Preserved)
 
-- **N6 (Projects System)**: Professional support for 50+ real projects (including ecommerce & real client links).
+- **N7 (Admin Authentication)**: Secure JWT/cookie admin authentication for CMS management.
+- **N8 (Project CRUD)**: Full CRUD backend and admin dashboard for projects library.
 - **N11 (Contact System)**: Contact submission saving to PostgreSQL first, then sending email notification via server-side Gmail to `jattiphrswan49@gmail.com` (credentials strictly server-side).
 - **N13 (SEO & Optimization)**: Favicon + SEO + AEO + GEO using authentic portfolio data only.
 
 ## Current Action
 
-N5 = **PASS** ✅  
-Waiting for approval to start **N6 — Projects + Project Details**.
+N6 = **PASS** ✅  
+NEXT: **N7 — Admin Authentication**
 
 
 

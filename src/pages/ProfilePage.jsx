@@ -23,9 +23,9 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="grid grid-cols-1 gap-5 lg:grid-cols-12 items-start">
-      {/* ── LEFT SIDEBAR (Desktop: 3 cols) ────────────────────── */}
-      <aside className="space-y-4 lg:col-span-3 order-2 lg:order-1">
+    <div className="grid grid-cols-1 lg:grid-cols-[minmax(250px,280px)_minmax(0,1fr)_minmax(250px,280px)] xl:grid-cols-[minmax(260px,290px)_minmax(0,1fr)_minmax(260px,290px)] gap-5 items-start">
+      {/* ── LEFT SIDEBAR (Desktop: 250-290px) ──────────────────── */}
+      <aside className="space-y-4 order-2 lg:order-1 lg:sticky lg:top-20 self-start">
         {/* Contact Card */}
         <SectionCard title="Contact Information" bodyClassName="p-4 space-y-3">
           <div className="space-y-2.5 text-xs">
@@ -88,8 +88,8 @@ export default function ProfilePage() {
         </SectionCard>
       </aside>
 
-      {/* ── CENTER CONTENT (Desktop: 6 cols / Tablet: main) ──── */}
-      <section className="space-y-4 lg:col-span-6 order-1 lg:order-2">
+      {/* ── CENTER CONTENT (Desktop: fluid expanded 1fr) ─────── */}
+      <section className="space-y-4 order-1 lg:order-2">
         {/* Main Profile Hero Card */}
         <ProfileCard profile={profile} />
 
@@ -235,8 +235,8 @@ export default function ProfilePage() {
         </SectionCard>
       </section>
 
-      {/* ── RIGHT SIDEBAR (Desktop: 3 cols) ───────────────────── */}
-      <aside className="space-y-4 lg:col-span-3 order-3">
+      {/* ── RIGHT SIDEBAR (Desktop: 250-290px) ─────────────────── */}
+      <aside className="space-y-4 order-3 lg:sticky lg:top-20 self-start">
         {/* Profile Highlights Card */}
         <SectionCard title="Portfolio Highlights" bodyClassName="p-4 space-y-3">
           <div className="grid grid-cols-2 gap-2 text-center">
