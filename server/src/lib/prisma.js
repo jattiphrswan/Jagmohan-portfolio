@@ -1,4 +1,11 @@
-﻿import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+// Ensure environment variables from server/.env are loaded before PrismaClient initializes
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 // Global singleton to prevent multiple Prisma Client instances in dev/reloads
 const globalForPrisma = globalThis;
@@ -14,3 +21,4 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export default prisma;
+

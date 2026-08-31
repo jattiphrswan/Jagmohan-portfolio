@@ -270,7 +270,7 @@ export default function ProfilePage() {
                   </div>
                 </div>
                 <Link
-                  to="/services"
+                  to="/about"
                   className="shrink-0 rounded-full border border-slate-300 px-3 py-1 text-[11px] font-semibold text-slate-700 hover:bg-slate-50 hover:border-slate-400"
                 >
                   {item.button || "View"}
