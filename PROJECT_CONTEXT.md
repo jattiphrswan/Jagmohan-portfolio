@@ -116,9 +116,11 @@ FAIL → ROOT CAUSE → FIX → RE-RUN LOOP
 ## 7. Current Project State
 
 - **Current Branch**: `portfolio-v2`
-- **Completed Nodes**: N0, N1, N2, N3, N4, N5, N6, N7, N8, N9, N10, N11, N13 (**PASS**)
+- **Completed Nodes**: N0 through N11, N13, N14, N15 (**PASS**)
 - **Skipped Node**: N12 (**SKIPPED BY DESIGN** — Gmail-only direct enquiry workflow)
-- **Active / Next Node**: **N14 — Production Deployment** (READY)
+- **Project Status**: **PRODUCTION READY** 🚀
+- **Live Frontend**: `https://jagmohan-portfolio.vercel.app`
+- **Live Backend**: `https://jagmohan-portfolio-api.onrender.com`
 
 ---
 

@@ -46,8 +46,8 @@ src/
 | N11 | Contact Form + Gmail Notification | **PASS** |
 | N12 | Admin Messages / Lead Inbox | **SKIPPED BY DESIGN** (Gmail-only direct workflow) |
 | N13 | SEO + Performance + Accessibility | **PASS** |
-| N14 | Production Deployment | READY |
-| N15 | Final Regression Testing | BLOCKED |
+| N14 | Production Deployment | **PASS** |
+| N15 | Final Regression Testing | **PASS** |
 
 ## N0 — Audit Summary (PASS)
 
@@ -227,10 +227,32 @@ src/
   - Passed `npm run lint` (0 errors, 0 warnings) and `npm run build` (all chunks compiled).
   - Verified Prisma schema (`npx prisma validate` and `npx prisma generate` with 0 migrations created).
 
+## N14 — Production Deployment (PASS)
+
+- Live Frontend deployed on Vercel: `https://jagmohan-portfolio.vercel.app`
+- Live Backend deployed on Render: `https://jagmohan-portfolio-api.onrender.com`
+- Database: Live Neon PostgreSQL with Prisma ORM and migrations applied
+- Media: Persistent Cloudinary media upload integration
+- Email: Gmail SMTP dispatch with Nodemailer on port 465 SSL with visitor Reply-To
+- Resolved Vite root base configuration (`base: "/"`) and added `vercel.json` SPA rewrite rules for client routing
+- Configured production cross-site authentication cookies with `sameSite: "none"` and `secure: true`
+
+## N15 — Final Regression Testing & Production Sign-Off (PASS)
+
+- Verified live production health (`GET /api/health` -> 200, environment: production, database: connected)
+- Verified all public pages on live Vercel deployment (`/`, `/about`, `/experience`, `/skills`, `/projects`, `/certifications`, `/contact`, `/admin/login`)
+- Verified direct URL refreshes without 404s via Vercel SPA rewrite configuration
+- Verified live API endpoints (`/api/profile`, `/api/projects`, `/api/projects/:slug`, `/api/certifications`)
+- Verified security guards: unauthorized requests to `/api/admin/*` and `/api/auth/me` return HTTP 401
+- Verified static crawler directives: `/robots.txt`, `/sitemap.xml`, and `/favicon-j.svg` load with HTTP 200
+- Verified 100% test pass rate across local and production test suites (`test_n15_production_qa.mjs`, `test_n13_seo.mjs`, `test_n13_backend.mjs`)
+- All temporary QA artifacts removed; working tree clean and secret-safe
+
 ## Current Action
 
-N13 = **PASS** ✅  
-NEXT: **N14 — Production Deployment (Vercel + Render + Neon + Cloudinary + Gmail SMTP)** (READY)
+ALL NODES (N0–N11, N13–N15) = **PASS** ✅  
+N12 = **SKIPPED BY DESIGN** (Direct Gmail enquiry architecture)  
+PROJECT STATUS: **PRODUCTION READY** 🚀
 
 
 

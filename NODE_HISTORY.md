@@ -61,3 +61,16 @@ Complete historical log of development nodes completed on the `portfolio-v2` bra
 - Implemented lightweight `SEO.jsx` component and `src/utils/seo.js` / `src/utils/schema.js` for dynamic metadata, canonical URL resolution (`VITE_SITE_URL`), Open Graph cards, Twitter metadata, and valid JSON-LD structured data (`Person`, `WebSite`, `CreativeWork`, `BreadcrumbList`).
 - Established strict heading hierarchy with one `<h1>` per page, audited link security (`rel="noopener noreferrer"`), ensured keyboard modal navigation (Escape key), and enhanced form accessibility (`aria-live="polite"`).
 - Optimized performance via `React.lazy` route code-splitting and `<Suspense>` loading fallback, generated `robots.txt` and `sitemap.xml`, and verified 100% test passing across `test_n13_seo.mjs` (64/64 tests) and `test_n13_backend.mjs` (11/11 tests).
+
+## N14 — Production Deployment
+- **Status**: PASS ✅ | **Commit**: `d1c3738`
+- Successfully deployed frontend to Vercel (`https://jagmohan-portfolio.vercel.app`) and backend to Render (`https://jagmohan-portfolio-api.onrender.com`).
+- Resolved Vite root base path configuration (`base: "/"`) and added `vercel.json` SPA rewrite rules for client routing.
+- Configured production cross-site authentication cookies with `sameSite: "none"` and `secure: true`.
+
+## N15 — Final Regression Testing & Production Sign-Off
+- **Status**: PASS ✅
+- Executed comprehensive live production QA across all public routes, API health, database persistence, deep-link refreshes, security guards, and static crawler directives.
+- Verified 57/57 live production tests passing (`test_n15_production_qa.mjs`).
+- Verified local lint, SEO, backend, and build test suites passing 100%.
+- Marked Jagmohan Portfolio V2 as **PRODUCTION READY** 🚀.

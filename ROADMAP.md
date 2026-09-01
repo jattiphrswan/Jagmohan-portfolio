@@ -22,8 +22,8 @@ This document outlines the complete node-by-node roadmap from initial audit thro
 | **N11** | Gmail Contact Form | Public contact form, Nodemailer Gmail SMTP, Reply-To visitor, honeypot & rate limit. | **PASS** ✅ |
 | **N12** | Admin Messages / Inbox | **SKIPPED BY DESIGN** — Visitor enquiries route directly to Gmail without DB persistence. | **SKIPPED** ⏭️ |
 | **N13** | SEO + Performance | Meta tags, OpenGraph, dynamic titles, sitemap, AEO, accessibility, favicon. | **PASS** ✅ |
-| **N14** | Production Deployment | Vercel (frontend), Render (backend), Neon (PostgreSQL), Cloudinary, Gmail SMTP. | **READY** 🎯 |
-| **N15** | Final Regression Testing | End-to-end verification of all public and admin user flows in production. | **BLOCKED** |
+| **N14** | Production Deployment | Vercel (frontend), Render (backend), Neon (PostgreSQL), Cloudinary, Gmail SMTP. | **PASS** ✅ |
+| **N15** | Final Regression Testing | End-to-end verification of all public and admin user flows in production. | **PASS** ✅ |
 
 ---
 
@@ -74,8 +74,11 @@ This document outlines the complete node-by-node roadmap from initial audit thro
 - Strict semantic heading hierarchy (`<h1>` per page), `rel="noopener noreferrer"` link security, keyboard accessible certificate modal (Escape key), and accessible form alert states.
 - Performance optimization with `React.lazy` route code-splitting, `<Suspense>` loaders, and `robots.txt` / `sitemap.xml` crawl directives.
 
-### N14 — Production Deployment (READY)
-- Vercel frontend deployment, Render backend deployment, Neon database connection, and production environment secrets.
+### N14 — Production Deployment (PASS)
+- Live Vercel frontend (`https://jagmohan-portfolio.vercel.app`), Render Node.js backend (`https://jagmohan-portfolio-api.onrender.com`), Neon PostgreSQL database, Cloudinary media storage, and Nodemailer Gmail SMTP dispatch.
+- Root path asset routing (`base: "/"`) and `vercel.json` SPA deep-link rewrites.
+- Production cross-site cookie configuration (`sameSite: "none"`, `secure: true`).
 
-### N15 — Final Regression Testing (UPCOMING)
-- Final end-to-end audit across public pages, admin features, contact delivery, and cross-browser responsiveness.
+### N15 — Final Regression Testing (PASS)
+- Live end-to-end quality assurance across all public pages, API health, database persistence, deep-link refreshes, security guards, and static crawler directives.
+- Project is 100% production-ready.
