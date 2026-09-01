@@ -21,8 +21,8 @@ This document outlines the complete node-by-node roadmap from initial audit thro
 | **N10** | Media + Certifications | Media upload API, Cloudinary integration, Certifications CRUD & public lightbox. | **PASS** ✅ |
 | **N11** | Gmail Contact Form | Public contact form, Nodemailer Gmail SMTP, Reply-To visitor, honeypot & rate limit. | **PASS** ✅ |
 | **N12** | Admin Messages / Inbox | **SKIPPED BY DESIGN** — Visitor enquiries route directly to Gmail without DB persistence. | **SKIPPED** ⏭️ |
-| **N13** | SEO + Performance | Meta tags, OpenGraph, dynamic titles, sitemap, AEO, accessibility, favicon. | **READY** 🎯 |
-| **N14** | Production Deployment | Vercel (frontend), Render (backend), Neon (PostgreSQL), Cloudinary, Gmail SMTP. | **BLOCKED** |
+| **N13** | SEO + Performance | Meta tags, OpenGraph, dynamic titles, sitemap, AEO, accessibility, favicon. | **PASS** ✅ |
+| **N14** | Production Deployment | Vercel (frontend), Render (backend), Neon (PostgreSQL), Cloudinary, Gmail SMTP. | **READY** 🎯 |
 | **N15** | Final Regression Testing | End-to-end verification of all public and admin user flows in production. | **BLOCKED** |
 
 ---
@@ -68,10 +68,13 @@ This document outlines the complete node-by-node roadmap from initial audit thro
 ### N12 — Admin Messages / Lead Inbox (SKIPPED BY DESIGN)
 - Intentionally skipped because contact enquiries are handled directly in Gmail, keeping backend lightweight with no database message storage.
 
-### N13 — SEO, Performance & Accessibility (READY)
-- Structured metadata, OpenGraph cards, JSON-LD schema, responsive accessibility, performance audits, and favicon.
+### N13 — SEO, Performance & Accessibility (PASS)
+- Reusable `SEO.jsx` component, dynamic titles/descriptions, canonical URL management via `VITE_SITE_URL`, Open Graph & Twitter Cards.
+- Schema.org JSON-LD structured data (`Person`, `WebSite`, `CreativeWork`, `BreadcrumbList`) using authentic portfolio content only.
+- Strict semantic heading hierarchy (`<h1>` per page), `rel="noopener noreferrer"` link security, keyboard accessible certificate modal (Escape key), and accessible form alert states.
+- Performance optimization with `React.lazy` route code-splitting, `<Suspense>` loaders, and `robots.txt` / `sitemap.xml` crawl directives.
 
-### N14 — Production Deployment (UPCOMING)
+### N14 — Production Deployment (READY)
 - Vercel frontend deployment, Render backend deployment, Neon database connection, and production environment secrets.
 
 ### N15 — Final Regression Testing (UPCOMING)

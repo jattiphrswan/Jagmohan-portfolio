@@ -32,10 +32,17 @@ Comprehensive technical documentation of the system topology, data layers, authe
   - `ProfileProvider` (`src/context/ProfileProvider.jsx`, `useProfile.js`): Dynamically loads and caches `/api/profile` data, providing instant state synchronization across all public and admin pages.
 - **Routing**: React Router DOM v7 with `Layout` wrapper (Header + Main Container + Footer) and `ProtectedRoute` guard for `/admin/*`.
 - **UI Components**:
-  - `SectionCard.jsx`: LinkedIn-styled modular card container.
+  - `SEO.jsx` (`src/components/SEO.jsx`): Reusable metadata and JSON-LD injection component.
+  - `SectionCard.jsx`: LinkedIn-styled modular card container with semantic headingLevel (h1/h2) support.
   - `MediaUpload.jsx`: Reusable file selection, preview, client validation, replacement, and Cloudinary upload component.
   - `Header.jsx`: Sticky desktop/mobile navigation bar with search bar and active link highlighting.
   - `Footer.jsx`: Professional footer with copyright and LinkedIn branding.
+- **SEO & Metadata Pipeline**:
+  - Dynamic route metadata (`title`, `description`, `canonical`, `og:*`, `twitter:*`, `robots`).
+  - Structured Data (JSON-LD): `Person`, `WebSite`, `CreativeWork`, `BreadcrumbList` via `src/utils/schema.js`.
+  - Canonical base URL resolved from `VITE_SITE_URL` with client window fallback.
+  - Base crawl configuration in `public/robots.txt` and `public/sitemap.xml`.
+  - Route code-splitting with `React.lazy()` and `<Suspense>`.
 
 ---
 

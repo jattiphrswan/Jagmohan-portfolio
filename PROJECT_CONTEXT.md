@@ -116,9 +116,9 @@ FAIL → ROOT CAUSE → FIX → RE-RUN LOOP
 ## 7. Current Project State
 
 - **Current Branch**: `portfolio-v2`
-- **Completed Nodes**: N0, N1, N2, N3, N4, N5, N6, N7, N8, N9, N10, N11 (**PASS**)
+- **Completed Nodes**: N0, N1, N2, N3, N4, N5, N6, N7, N8, N9, N10, N11, N13 (**PASS**)
 - **Skipped Node**: N12 (**SKIPPED BY DESIGN** — Gmail-only direct enquiry workflow)
-- **Active / Next Node**: **N13 — SEO + Performance + Accessibility**
+- **Active / Next Node**: **N14 — Production Deployment** (READY)
 
 ---
 
@@ -133,7 +133,7 @@ When beginning work on this codebase in a new session:
 6. Read `SETUP.md`
 7. Read `NODE_HISTORY.md`
 8. Inspect the repository before editing.
-9. Confirm the current branch (`portfolio-v2`) and current node (`N13`).
+9. Confirm the current branch (`portfolio-v2`) and current node (`N14`).
 10. Work exclusively on the current READY node and follow the Graph Loop.
 11. Never invent fake portfolio content, never commit secrets, and never push to `main` directly.
 

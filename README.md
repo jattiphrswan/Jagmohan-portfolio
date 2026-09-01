@@ -103,6 +103,7 @@ The application showcases authentic web development work with a public responsiv
 ### Frontend (`.env` / Vercel Environment)
 ```bash
 VITE_API_URL=http://localhost:5000   # Backend API base URL in development / production Render URL
+VITE_SITE_URL=http://localhost:5173  # Canonical site URL for SEO, OpenGraph & Sitemaps
 ```
 
 ### Backend (`server/.env` / Render Environment)
@@ -196,12 +197,12 @@ npm run dev
 
 To continue development seamlessly in a new session or with a new agent, supply the following prompt:
 
-> "Read `README.md`, `PROJECT_CONTEXT.md`, `ROADMAP.md`, `STATUS.md`, `ARCHITECTURE.md`, and `SETUP.md`. Inspect the repository before editing. Confirm the current branch is `portfolio-v2` and the current node is `N13`. Follow the Graph Loop workflow, verify builds and tests, and never commit or push until verified."
+> "Read `README.md`, `PROJECT_CONTEXT.md`, `ROADMAP.md`, `STATUS.md`, `ARCHITECTURE.md`, and `SETUP.md`. Inspect the repository before editing. Confirm the current branch is `portfolio-v2` and the current node is `N14`. Follow the Graph Loop workflow, verify builds and tests, and never commit or push until verified."
 
 ---
 
 ## Current Status
 
-- **Completed**: Nodes N0 through N11 (**PASS**)
+- **Completed**: Nodes N0 through N11, N13 (**PASS**)
 - **Skipped by Design**: Node N12 (Admin Messages / Lead Inbox — enquiries route directly to Gmail without DB storage)
-- **Current Ready Node**: **N13 — SEO + Performance + Accessibility**
+- **Current Ready Node**: **N14 — Production Deployment (Vercel + Render + Neon + Cloudinary + Gmail SMTP)**

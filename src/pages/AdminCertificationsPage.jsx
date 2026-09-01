@@ -152,7 +152,7 @@ export default function AdminCertificationsPage() {
                             <a
                               href={cert.credentialUrl}
                               target="_blank"
-                              rel="noreferrer"
+                              rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 text-[11px] text-[#0a66c2] hover:underline mt-0.5"
                             >
                               <span>Verify Credential</span>

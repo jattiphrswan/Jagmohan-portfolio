@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import SectionCard from "../components/SectionCard";
+import SEO from "../components/SEO";
+import { getPersonSchema, getWebSiteSchema } from "../utils/schema";
 import { useProfile } from "../context/useProfile";
 import {
   FiPhone,
@@ -24,9 +26,15 @@ export default function ProfilePage() {
     { key: "github", Icon: FaGithub, label: "GitHub", href: profile?.contact?.github?.href || profile?.github, text: "GitHub Profile" },
   ];
 
-
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[minmax(250px,280px)_minmax(0,1fr)_minmax(250px,280px)] xl:grid-cols-[minmax(260px,290px)_minmax(0,1fr)_minmax(260px,290px)] gap-5 items-start">
+    <>
+      <SEO
+        title="Jagmohan Singh | Web Designer & Front-End Developer"
+        description="Personal portfolio of Jagmohan Singh, a Web Designer and Front-End Developer with 3+ years experience building responsive websites with WordPress, WooCommerce, React, and Tailwind CSS."
+        canonical="/"
+        schema={[getPersonSchema(profile), getWebSiteSchema()]}
+      />
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(250px,280px)_minmax(0,1fr)_minmax(250px,280px)] xl:grid-cols-[minmax(260px,290px)_minmax(0,1fr)_minmax(260px,290px)] gap-5 items-start">
       {/* ── LEFT SIDEBAR (Desktop: 250-290px) ──────────────────── */}
       <aside className="space-y-4 order-2 lg:order-1 lg:sticky lg:top-20 self-start">
         {/* Contact Card */}
@@ -300,6 +308,7 @@ export default function ProfilePage() {
         </div>
       </aside>
     </div>
+    </>
   );
 }
 

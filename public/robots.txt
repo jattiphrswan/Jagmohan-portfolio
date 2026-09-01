@@ -1,0 +1,8 @@
+# Robots.txt for Jagmohan Singh Portfolio
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: /sitemap.xml

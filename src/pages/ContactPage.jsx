@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SectionCard from "../components/SectionCard";
+import SEO from "../components/SEO";
 import { useProfile } from "../context/useProfile";
 import { API_BASE } from "../config/api";
 import {
@@ -113,60 +114,75 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
-      {/* Direct Contact Cards */}
-      <SectionCard
-        title="Get in Touch"
-        subtitle="Direct communication channels"
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <ContactItem
-            icon={FiPhone}
-            label="Direct Phone"
-            value={profile?.contact?.phone?.label}
-            href={profile?.contact?.phone?.href}
-          />
-          <ContactItem
-            icon={FiMail}
-            label="Email Address"
-            value={profile?.contact?.email?.label}
-            href={profile?.contact?.email?.href}
-          />
-          <ContactItem
-            icon={FaLinkedin}
-            label="LinkedIn Profile"
-            value="linkedin.com/in/jagmohan-singh49"
-            href={profile?.contact?.linkedin?.href}
-          />
-          <ContactItem
-            icon={FaGithub}
-            label="GitHub Profile"
-            value="github.com/jattiphrswan"
-            href={profile?.contact?.github?.href}
-          />
-        </div>
-      </SectionCard>
-
-      {/* Contact Enquiry Form */}
-      <SectionCard
-        title="Send an Enquiry"
-        subtitle="Direct message notification to Jagmohan's Gmail"
-      >
-        {/* Success Alert */}
-        {success && (
-          <div className="mb-4 flex items-center gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs text-emerald-800">
-            <FiCheckCircle className="text-lg shrink-0 text-emerald-600" />
-            <span className="font-medium">{success}</span>
+    <>
+      <SEO
+        title="Contact Jagmohan Singh | Web Designer & Front-End Developer"
+        description="Get in touch with Jagmohan Singh for freelance web design, custom WordPress development, and front-end engineering opportunities."
+        canonical="/contact"
+      />
+      <div className="mx-auto max-w-4xl space-y-5">
+        {/* Direct Contact Cards */}
+        <SectionCard
+          title="Get in Touch"
+          subtitle="Direct communication channels"
+          headingLevel="h1"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <ContactItem
+              icon={FiPhone}
+              label="Direct Phone"
+              value={profile?.contact?.phone?.label}
+              href={profile?.contact?.phone?.href}
+            />
+            <ContactItem
+              icon={FiMail}
+              label="Email Address"
+              value={profile?.contact?.email?.label}
+              href={profile?.contact?.email?.href}
+            />
+            <ContactItem
+              icon={FaLinkedin}
+              label="LinkedIn Profile"
+              value="linkedin.com/in/jagmohan-singh49"
+              href={profile?.contact?.linkedin?.href}
+            />
+            <ContactItem
+              icon={FaGithub}
+              label="GitHub Profile"
+              value="github.com/jattiphrswan"
+              href={profile?.contact?.github?.href}
+            />
           </div>
-        )}
+        </SectionCard>
 
-        {/* Error Alert */}
-        {error && (
-          <div className="mb-4 flex items-center gap-2.5 rounded-xl border border-red-200 bg-red-50 p-4 text-xs text-red-700">
-            <FiAlertCircle className="text-lg shrink-0 text-red-500" />
-            <span className="font-medium">{error}</span>
-          </div>
-        )}
+        {/* Contact Enquiry Form */}
+        <SectionCard
+          title="Send an Enquiry"
+          subtitle="Direct message notification to Jagmohan's Gmail"
+        >
+          {/* Success Alert */}
+          {success && (
+            <div
+              role="alert"
+              aria-live="polite"
+              className="mb-4 flex items-center gap-2.5 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs text-emerald-800"
+            >
+              <FiCheckCircle className="text-lg shrink-0 text-emerald-600" />
+              <span className="font-medium">{success}</span>
+            </div>
+          )}
+
+          {/* Error Alert */}
+          {error && (
+            <div
+              role="alert"
+              aria-live="polite"
+              className="mb-4 flex items-center gap-2.5 rounded-xl border border-red-200 bg-red-50 p-4 text-xs text-red-700"
+            >
+              <FiAlertCircle className="text-lg shrink-0 text-red-500" />
+              <span className="font-medium">{error}</span>
+            </div>
+          )}
 
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           {/* Honeypot Bot Trap (Invisible to real users, trapped bots fill it) */}
@@ -341,5 +357,6 @@ export default function ContactPage() {
         </form>
       </SectionCard>
     </div>
+    </>
   );
 }

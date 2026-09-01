@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import SectionCard from '../components/SectionCard';
 import ProjectCard from '../components/ProjectCard';
+import SEO from '../components/SEO';
 import { API_BASE } from '../config/api';
 import { FiFolder, FiSearch, FiFilter, FiAlertCircle } from 'react-icons/fi';
 
@@ -127,12 +128,19 @@ export default function ProjectsPage() {
   }, [projects, selectedCategory, searchQuery]);
 
   return (
-    <div className="mx-auto max-w-6xl space-y-5">
-      {/* Header Card */}
-      <SectionCard
-        title="Projects & Client Work"
-        subtitle="Selected web design, custom WordPress themes, and front-end engineering projects"
-      >
+    <>
+      <SEO
+        title="Web Development Projects & Portfolio | Jagmohan Singh"
+        description="Curated portfolio of production client websites, custom WordPress themes, WooCommerce stores, and responsive React applications by Jagmohan Singh."
+        canonical="/projects"
+      />
+      <div className="mx-auto max-w-6xl space-y-5">
+        {/* Header Card */}
+        <SectionCard
+          title="Projects & Client Work"
+          subtitle="Selected web design, custom WordPress themes, and front-end engineering projects"
+          headingLevel="h1"
+        >
         <div className="space-y-4">
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
             A curated showcase of production client websites, custom WordPress themes, WooCommerce stores, and responsive React applications.
@@ -197,5 +205,6 @@ export default function ProjectsPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

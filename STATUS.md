@@ -45,9 +45,8 @@ src/
 | N10 | Media / Image Management + Certifications | **PASS** |
 | N11 | Contact Form + Gmail Notification | **PASS** |
 | N12 | Admin Messages / Lead Inbox | **SKIPPED BY DESIGN** (Gmail-only direct workflow) |
-| N13 | SEO + Performance + Accessibility | READY |
-| N14 | Production Deployment | BLOCKED |
-
+| N13 | SEO + Performance + Accessibility | **PASS** |
+| N14 | Production Deployment | READY |
 | N15 | Final Regression Testing | BLOCKED |
 
 ## N0 — Audit Summary (PASS)
@@ -199,19 +198,39 @@ src/
 - Verified frontend checks: `npm run lint` (0 errors, 0 warnings) & `npm run build` (PASS)
 - Verified backend verification: `test_n11_contact.mjs` (100% PASS across all tests)
 
-## N12 — Admin Messages / Lead Inbox (SKIPPED BY DESIGN)
+## N13 — SEO, Performance & Accessibility (PASS)
 
-- Per architecture decision, all visitor enquiries are routed directly to Gmail with no database persistence.
-
-## Upcoming Roadmap Guidelines (Preserved)
-
-- **N13 (SEO & Optimization)**: Favicon + SEO + AEO + GEO using authentic portfolio data only.
+- Built lightweight, zero-dependency reusable `SEO.jsx` component and `src/utils/seo.js` / `src/utils/schema.js` supporting dynamic `document.title`, meta descriptions, canonical URLs (`VITE_SITE_URL` resolution), Open Graph cards, Twitter metadata, `noindex, nofollow` directives, and JSON-LD structured data.
+- Structured Data (JSON-LD): Implemented authentic Schema.org types using real repository data only:
+  - `Person` schema with `name`, `jobTitle`, `sameAs` (LinkedIn, GitHub), `knowsAbout`, `worksFor`, and `address` (Delhi, India).
+  - `WebSite` schema with site `name`, `url`, and `description`.
+  - `CreativeWork` schema for project detail case studies with title, description, URL, and author.
+  - `BreadcrumbList` schema for project navigation hierarchy (Home -> Projects -> Project Title).
+- Heading Hierarchy: Refactored heading levels across all public pages so each page renders exactly one meaningful `<h1>` tag followed by logical `<h2>` and `<h3>` tags via `SectionCard.jsx` `headingLevel` prop.
+- Security & Links: Audited all external links across the codebase, ensuring `rel="noopener noreferrer"` on every `target="_blank"` anchor.
+- Accessibility:
+  - Added Escape key listener to close Certifications image lightbox modal (`useEffect` on `keydown`).
+  - Set `role="dialog"`, `aria-modal="true"`, `aria-labelledby="lightbox-title"`, and accessible `aria-label` close button on certificate modal.
+  - Added `role="alert"` and `aria-live="polite"` to contact form feedback banners in `ContactPage.jsx`.
+  - Audited color contrast and visible keyboard focus states (`:focus-visible`).
+- Performance & Route Code Splitting:
+  - Implemented `React.lazy` and `<Suspense>` in `App.jsx` for all secondary public routes (`AboutPage`, `ExperiencePage`, `SkillsPage`, `ProjectsPage`, `ProjectDetailPage`, `CertificationsPage`, `ContactPage`, `NotFoundPage`) and all admin routes, keeping the initial JavaScript bundle slim.
+  - Preserved eager loading of `ProfilePage` for immediate First Contentful Paint (FCP) and Largest Contentful Paint (LCP).
+  - Explicit dimensions, aspect ratios, and `loading="eager"` on above-the-fold hero images; `loading="lazy"` on below-the-fold media.
+- Crawl Directives:
+  - Created `public/robots.txt` allowing public routes and disallowing `/admin` and `/admin/`.
+  - Created `public/sitemap.xml` with all core public routes and structured priorities.
+  - Enforced `noindex, nofollow` on `/admin/login`, `/admin/*` via `ProtectedRoute.jsx`, and `NotFoundPage.jsx`.
+- Automated Verification:
+  - Created and passed `test_n13_seo.mjs` (64/64 tests PASS).
+  - Created and passed `test_n13_backend.mjs` (11/11 tests PASS).
+  - Passed `npm run lint` (0 errors, 0 warnings) and `npm run build` (all chunks compiled).
+  - Verified Prisma schema (`npx prisma validate` and `npx prisma generate` with 0 migrations created).
 
 ## Current Action
 
-N11 = **PASS** ✅  
-N12 = **SKIPPED BY DESIGN**  
-NEXT: **N13 — SEO + Performance + Accessibility**
+N13 = **PASS** ✅  
+NEXT: **N14 — Production Deployment (Vercel + Render + Neon + Cloudinary + Gmail SMTP)** (READY)
 
 
 

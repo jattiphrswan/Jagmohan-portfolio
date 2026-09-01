@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import SectionCard from "../components/SectionCard";
+import SEO from "../components/SEO";
 import { useProfile } from "../context/useProfile";
 import { FiCheckCircle, FiTool, FiUser, FiBriefcase, FiMapPin, FiMail, FiPhone } from "react-icons/fi";
 
@@ -7,9 +8,19 @@ export default function AboutPage() {
   const { profile } = useProfile();
 
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
-      {/* Profile Overview Card */}
-      <SectionCard title="About Jagmohan Singh" subtitle="Web Designer & Front-End Developer">
+    <>
+      <SEO
+        title="About Jagmohan Singh | Web Designer & Front-End Developer"
+        description="Learn about Jagmohan Singh's background, web design capabilities, WordPress expertise, and front-end engineering experience."
+        canonical="/about"
+      />
+      <div className="mx-auto max-w-4xl space-y-5">
+        {/* Profile Overview Card */}
+        <SectionCard
+          title="About Jagmohan Singh"
+          subtitle="Web Designer & Front-End Developer"
+          headingLevel="h1"
+        >
         <div className="space-y-4">
           <p className="text-sm leading-relaxed text-slate-700 whitespace-pre-line">
             {profile.about}
@@ -90,6 +101,7 @@ export default function AboutPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -11,7 +11,10 @@ export default function ProfileCard({ profile }) {
         {profile.banner && (
           <img
             src={`${base}images/${profile.banner}`}
-            alt="Profile banner"
+            alt="Jagmohan Singh profile cover banner"
+            width="1200"
+            height="350"
+            loading="eager"
             className="h-full w-full object-cover opacity-90 transition-transform duration-500 hover:scale-105"
           />
         )}
@@ -25,7 +28,10 @@ export default function ProfileCard({ profile }) {
             {profile.avatar ? (
               <img
                 src={`${base}images/${profile.avatar}`}
-                alt={profile.name}
+                alt={`${profile.name || "Jagmohan Singh"} profile avatar`}
+                width="144"
+                height="144"
+                loading="eager"
                 className="h-full w-full object-cover"
               />
             ) : (

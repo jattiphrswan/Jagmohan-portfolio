@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import SectionCard from '../components/SectionCard';
+import SEO from '../components/SEO';
+import { getProjectSchema, getBreadcrumbSchema } from '../utils/schema';
 import { API_BASE } from '../config/api';
 import {
   FiArrowLeft,
@@ -11,6 +13,7 @@ import {
   FiBriefcase,
   FiCalendar,
   FiAlertCircle,
+  FiChevronRight,
 } from 'react-icons/fi';
 
 
@@ -112,103 +115,140 @@ export default function ProjectDetailPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-4xl py-12 text-center text-xs text-slate-500">
-        Loading project details...
-      </div>
+      <>
+        <SEO title="Loading Project... | Jagmohan Singh Portfolio" noindex={true} />
+        <div className="mx-auto max-w-4xl py-12 text-center text-xs text-slate-500">
+          Loading project details...
+        </div>
+      </>
     );
   }
 
   if (notFound || !project) {
     return (
-      <div className="mx-auto max-w-lg py-8">
-        <SectionCard className="text-center p-8">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-600 text-2xl mb-3">
-            <FiAlertCircle />
-          </div>
-          <h1 className="text-xl font-bold text-slate-900">Project Not Found</h1>
-          <p className="mt-2 text-xs text-slate-600">
-            The project with slug <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-800">{slug}</code> does not exist or has been moved.
-          </p>
-          <Link
-            to="/projects"
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#0a66c2] px-5 py-2 text-xs font-semibold text-white hover:bg-[#004182]"
-          >
-            <FiArrowLeft />
-            <span>Back to Projects</span>
-          </Link>
-        </SectionCard>
-      </div>
+      <>
+        <SEO
+          title="Project Not Found | Jagmohan Singh Portfolio"
+          description="The requested project case study could not be found."
+          noindex={true}
+        />
+        <div className="mx-auto max-w-lg py-8">
+          <SectionCard className="text-center p-8">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-600 text-2xl mb-3">
+              <FiAlertCircle />
+            </div>
+            <h1 className="text-xl font-bold text-slate-900">Project Not Found</h1>
+            <p className="mt-2 text-xs text-slate-600">
+              The project with slug <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-800">{slug}</code> does not exist or has been moved.
+            </p>
+            <Link
+              to="/projects"
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#0a66c2] px-5 py-2 text-xs font-semibold text-white hover:bg-[#004182]"
+            >
+              <FiArrowLeft />
+              <span>Back to Projects</span>
+            </Link>
+          </SectionCard>
+        </div>
+      </>
     );
   }
 
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Projects", path: "/projects" },
+    { name: project.title, path: `/projects/${project.slug}` },
+  ];
+
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
-      {/* Top Navigation */}
-      <div className="flex items-center justify-between">
-        <Link
-          to="/projects"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0a66c2] hover:underline"
-        >
-          <FiArrowLeft />
-          <span>Back to All Projects</span>
-        </Link>
-        {project.category && (
-          <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-[#0a66c2] border border-blue-100 uppercase tracking-wider">
-            {project.category}
-          </span>
-        )}
-      </div>
+    <>
+      <SEO
+        title={`${project.title} | Jagmohan Singh Portfolio`}
+        description={project.description || project.overview || `Case study and architectural overview for ${project.title}`}
+        canonical={`/projects/${project.slug}`}
+        ogImage={project.image}
+        schema={[
+          getProjectSchema(project),
+          getBreadcrumbSchema(breadcrumbs),
+        ]}
+      />
+      <div className="mx-auto max-w-4xl space-y-5">
+        {/* Breadcrumbs Navigation */}
+        <nav aria-label="Breadcrumb" className="flex items-center justify-between text-xs">
+          <ol className="flex items-center gap-1.5 text-slate-500 font-medium">
+            <li>
+              <Link to="/" className="hover:text-[#0a66c2] transition-colors">Home</Link>
+            </li>
+            <li>
+              <FiChevronRight className="text-slate-400 text-[10px]" />
+            </li>
+            <li>
+              <Link to="/projects" className="hover:text-[#0a66c2] transition-colors">Projects</Link>
+            </li>
+            <li>
+              <FiChevronRight className="text-slate-400 text-[10px]" />
+            </li>
+            <li className="text-slate-900 font-semibold truncate max-w-[200px] sm:max-w-md">
+              {project.title}
+            </li>
+          </ol>
+          {project.category && (
+            <span className="hidden sm:inline-flex items-center rounded-full bg-blue-50 px-3 py-0.5 text-[11px] font-semibold text-[#0a66c2] border border-blue-100 uppercase tracking-wider">
+              {project.category}
+            </span>
+          )}
+        </nav>
 
-      {/* Main Project Header Card */}
-      <SectionCard>
-        <div className="space-y-4">
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-snug">
-            {project.title}
-          </h1>
+        {/* Main Project Header Card */}
+        <SectionCard>
+          <div className="space-y-4">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 tracking-tight leading-snug">
+              {project.title}
+            </h1>
 
-          {/* Metadata Row */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-600 pt-1 border-t border-slate-100">
-            {project.role && (
-              <div className="flex items-center gap-1.5">
-                <FiBriefcase className="text-slate-400 shrink-0" />
-                <span>Role: <strong className="text-slate-800">{project.role}</strong></span>
-              </div>
-            )}
-            {project.category && (
-              <div className="flex items-center gap-1.5">
-                <FiLayers className="text-slate-400 shrink-0" />
-                <span>Domain: <strong className="text-slate-800">{project.category}</strong></span>
-              </div>
-            )}
+            {/* Metadata Row */}
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-600 pt-1 border-t border-slate-100">
+              {project.role && (
+                <div className="flex items-center gap-1.5">
+                  <FiBriefcase className="text-slate-400 shrink-0" />
+                  <span>Role: <strong className="text-slate-800">{project.role}</strong></span>
+                </div>
+              )}
+              {project.category && (
+                <div className="flex items-center gap-1.5">
+                  <FiLayers className="text-slate-400 shrink-0" />
+                  <span>Domain: <strong className="text-slate-800">{project.category}</strong></span>
+                </div>
+              )}
+            </div>
+
+            {/* Action CTAs */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-2">
+              {project.liveUrl && (
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-[#0a66c2] px-5 py-2 text-xs font-semibold text-white hover:bg-[#004182] transition shadow-sm"
+                >
+                  <FiExternalLink />
+                  <span>Visit Live Website</span>
+                </a>
+              )}
+              {project.githubUrl && (
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
+                >
+                  <FiGithub />
+                  <span>Source Repository</span>
+                </a>
+              )}
+            </div>
           </div>
-
-          {/* Action CTAs */}
-          <div className="flex flex-wrap items-center gap-2.5 pt-2">
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full bg-[#0a66c2] px-5 py-2 text-xs font-semibold text-white hover:bg-[#004182] transition shadow-sm"
-              >
-                <FiExternalLink />
-                <span>Visit Live Website</span>
-              </a>
-            )}
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
-              >
-                <FiGithub />
-                <span>Source Repository</span>
-              </a>
-            )}
-          </div>
-        </div>
-      </SectionCard>
+        </SectionCard>
 
       {/* Project Overview */}
       {project.overview && (
@@ -236,5 +276,6 @@ export default function ProjectDetailPage() {
         </SectionCard>
       )}
     </div>
+    </>
   );
 }

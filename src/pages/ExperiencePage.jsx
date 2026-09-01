@@ -1,4 +1,5 @@
 import SectionCard from "../components/SectionCard";
+import SEO from "../components/SEO";
 import { useProfile } from "../context/useProfile";
 import { FiChevronDown, FiBriefcase, FiMapPin, FiCalendar } from "react-icons/fi";
 
@@ -6,11 +7,18 @@ export default function ExperiencePage() {
   const { profile } = useProfile();
 
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
-      <SectionCard
-        title="Experience"
-        subtitle={`${profile.experience?.length || 0} positions • Web Design, Front-End & WordPress`}
-      >
+    <>
+      <SEO
+        title="Work Experience | Jagmohan Singh — Web Designer & Developer"
+        description="Explore the professional web development career history and accomplishments of Jagmohan Singh across SkyFish Development, Danstring Technologies, and SMWebTech."
+        canonical="/experience"
+      />
+      <div className="mx-auto max-w-4xl space-y-5">
+        <SectionCard
+          title="Experience"
+          subtitle={`${profile.experience?.length || 0} positions • Web Design, Front-End & WordPress`}
+          headingLevel="h1"
+        >
         <div className="divide-y divide-slate-100">
           {(profile.experience || []).map((exp, idx) => (
             <details
@@ -86,6 +94,7 @@ export default function ExperiencePage() {
         </div>
       </SectionCard>
     </div>
+    </>
   );
 }
 

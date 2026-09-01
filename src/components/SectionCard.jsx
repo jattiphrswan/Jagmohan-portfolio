@@ -5,8 +5,11 @@ export default function SectionCard({
   id,
   className = "",
   bodyClassName = "p-5",
+  headingLevel = "h2",
   children,
 }) {
+  const HeadingTag = headingLevel;
+
   return (
     <section
       id={id}
@@ -15,9 +18,9 @@ export default function SectionCard({
       {title && (
         <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3.5">
           <div>
-            <h2 className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight">
+            <HeadingTag className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight">
               {title}
-            </h2>
+            </HeadingTag>
             {subtitle && (
               <p className="mt-0.5 text-xs text-slate-500">{subtitle}</p>
             )}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/useAuth';
+import SEO from '../components/SEO';
 import { FiLock, FiMail, FiAlertCircle, FiShield } from 'react-icons/fi';
 
 export default function LoginPage() {
@@ -41,7 +42,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[70vh] items-center justify-center px-4 py-8">
+    <>
+      <SEO
+        title="Admin Login | Jagmohan Singh Portfolio"
+        description="Private administrative login for Jagmohan Singh portfolio management."
+        noindex={true}
+      />
+      <div className="flex min-h-[70vh] items-center justify-center px-4 py-8">
       <div className="w-full max-w-md">
         {/* Top Monogram Banner */}
         <div className="text-center mb-6">
@@ -122,5 +129,6 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

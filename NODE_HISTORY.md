@@ -55,3 +55,9 @@ Complete historical log of development nodes completed on the `portfolio-v2` bra
 ## N12 — Admin Messages / Lead Inbox
 - **Status**: SKIPPED BY DESIGN ⏭️
 - Enquiries route directly to the owner's Gmail inbox without database storage.
+
+## N13 — SEO, Performance & Accessibility
+- **Status**: PASS ✅
+- Implemented lightweight `SEO.jsx` component and `src/utils/seo.js` / `src/utils/schema.js` for dynamic metadata, canonical URL resolution (`VITE_SITE_URL`), Open Graph cards, Twitter metadata, and valid JSON-LD structured data (`Person`, `WebSite`, `CreativeWork`, `BreadcrumbList`).
+- Established strict heading hierarchy with one `<h1>` per page, audited link security (`rel="noopener noreferrer"`), ensured keyboard modal navigation (Escape key), and enhanced form accessibility (`aria-live="polite"`).
+- Optimized performance via `React.lazy` route code-splitting and `<Suspense>` loading fallback, generated `robots.txt` and `sitemap.xml`, and verified 100% test passing across `test_n13_seo.mjs` (64/64 tests) and `test_n13_backend.mjs` (11/11 tests).

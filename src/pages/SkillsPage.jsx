@@ -1,4 +1,5 @@
 import SectionCard from "../components/SectionCard";
+import SEO from "../components/SEO";
 import { useProfile } from "../context/useProfile";
 import { FiCheck, FiLayers, FiCode, FiLayout, FiCpu } from "react-icons/fi";
 
@@ -24,12 +25,19 @@ export default function SkillsPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-4xl space-y-5">
-      {/* Main Skills Card */}
-      <SectionCard
-        title="Skills & Endorsements"
-        subtitle="Core competencies and technical stack"
-      >
+    <>
+      <SEO
+        title="Technical Skills & Tools | Jagmohan Singh — Front-End Developer"
+        description="Technical skills and tools catalogue of Jagmohan Singh, including WordPress, WooCommerce, React, Tailwind CSS, Bootstrap, and UI/UX design tools."
+        canonical="/skills"
+      />
+      <div className="mx-auto max-w-4xl space-y-5">
+        {/* Main Skills Card */}
+        <SectionCard
+          title="Skills & Endorsements"
+          subtitle="Core competencies and technical stack"
+          headingLevel="h1"
+        >
         <div className="space-y-6">
           {categories.map(({ name, icon: Icon, skills }) => (
             <div key={name} className="space-y-3">
@@ -70,6 +78,7 @@ export default function SkillsPage() {
         </div>
       </SectionCard>
     </div>
+    </>
   );
 }
 
