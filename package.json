@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "test:seo": "node test_n13_seo.mjs",
     "test:backend": "node test_n13_backend.mjs",
+    "test:qa": "node test_n15_production_qa.mjs",
     "preview": "vite preview"
   },
 

@@ -189,20 +189,15 @@ npm run dev
 - **Media**: **Cloudinary** for persistent assets (free tier).
 - **Email**: **Gmail SMTP** using Google App Passwords.
 
-*Note: Production deployment is scheduled for Node N14 and has not yet been triggered.*
-
----
-
-## Continuing Development With Another AI Assistant
-
-To continue development seamlessly in a new session or with a new agent, supply the following prompt:
-
-> "Read `README.md`, `PROJECT_CONTEXT.md`, `ROADMAP.md`, `STATUS.md`, `ARCHITECTURE.md`, and `SETUP.md`. Inspect the repository before editing. Confirm the current branch is `portfolio-v2` and the current node is `N14`. Follow the Graph Loop workflow, verify builds and tests, and never commit or push until verified."
+### Live Production Deployments
+- **Frontend URL**: [https://jagmohan-portfolio.vercel.app](https://jagmohan-portfolio.vercel.app)
+- **Backend API URL**: [https://jagmohan-portfolio-api.onrender.com](https://jagmohan-portfolio-api.onrender.com)
+- **Health Endpoint**: [https://jagmohan-portfolio-api.onrender.com/api/health](https://jagmohan-portfolio-api.onrender.com/api/health)
 
 ---
 
 ## Current Status
 
-- **Completed**: Nodes N0 through N11, N13 (**PASS**)
+- **Completed**: Nodes N0 through N11, N13, N14, N15 (**PASS**)
 - **Skipped by Design**: Node N12 (Admin Messages / Lead Inbox — enquiries route directly to Gmail without DB storage)
-- **Current Ready Node**: **N14 — Production Deployment (Vercel + Render + Neon + Cloudinary + Gmail SMTP)**
+- **Project Status**: **PRODUCTION READY** 🚀
