@@ -9,12 +9,24 @@ const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-jwt-key-jagmohan-portfo
 const COOKIE_NAME = 'auth_token';
 
 // In-memory fallback admin for local verification when database is in transition
-let localFallbackAdmin = {
+const localFallbackAdmin = {
   id: 'admin-1',
   email: 'admin@portfolio.local',
   passwordHash: '$2b$10$5XD08d2OcE2z1YF6tFFhEeNqkpIgi5PoJILu.bXYFMPLvEVNZezZi'
 };
 
+/**
+ * Cookie options helper supporting cross-site credentials in production HTTPS
+ */
+function getCookieOptions() {
+  const isProduction = process.env.NODE_ENV === 'production';
+  return {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  };
+}
 
 /**
  * POST /api/auth/login
@@ -77,13 +89,8 @@ router.post('/login', async (req, res, next) => {
       { expiresIn: '7d' }
     );
 
-    // 4. Set secure HttpOnly cookie
-    res.cookie(COOKIE_NAME, token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-    });
+    // 4. Set secure HttpOnly cookie with cross-site support
+    res.cookie(COOKIE_NAME, token, getCookieOptions());
 
     return res.status(200).json({
       success: true,
@@ -117,10 +124,11 @@ router.get('/me', requireAuth, (req, res) => {
  * Clear authentication cookie
  */
 router.post('/logout', (req, res) => {
+  const isProduction = process.env.NODE_ENV === 'production';
   res.clearCookie(COOKIE_NAME, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax'
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax'
   });
 
   return res.status(200).json({

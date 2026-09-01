@@ -11,36 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <script>
-      // Decode the redirect URL set by public/404.html (GitHub Pages SPA trick)
-      (function () {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
-        }
-        // Also handle ?p= query-param redirect from 404.html
-        var l = window.location;
-        if (l.search[1] === 'p') {
-          var decoded = l.search
-            .slice(1)
-            .split('&')
-            .reduce(function (o, s) {
-              var kv = s.split('=');
-              o[kv[0]] = kv.slice(1).join('=').replace(/~and~/g, '&');
-              return o;
-            }, {});
-          if (decoded.p !== undefined) {
-            history.replaceState(
-              null,
-              null,
-              decoded.p + (decoded.q ? '?' + decoded.q : '') + (l.hash || '')
-            );
-          }
-        }
-      })();
-    </script>
-
   </head>
   <body>
     <div id="root"></div>

@@ -10,9 +10,7 @@
     "lint": "eslint .",
     "test:seo": "node test_n13_seo.mjs",
     "test:backend": "node test_n13_backend.mjs",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "preview": "vite preview"
   },
 
   "dependencies": {
