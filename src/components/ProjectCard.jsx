@@ -1,11 +1,26 @@
 import { Link } from 'react-router-dom';
-import { FiExternalLink, FiGithub, FiArrowRight, FiLayers } from 'react-icons/fi';
+import { FiExternalLink, FiGithub, FiArrowRight } from 'react-icons/fi';
+import ProjectScreenshotPreview from './ProjectScreenshotPreview';
 
 export default function ProjectCard({ project }) {
   if (!project) return null;
 
   return (
-    <article className="flex flex-col rounded-xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm transition-all duration-200 hover:shadow-md hover:border-slate-300">
+    <article className="group flex flex-col rounded-xl border border-slate-200 bg-white p-4 sm:p-5 shadow-sm transition-all duration-200 hover:shadow-md hover:border-slate-300">
+      {/* Project Showcase Image (with hover scroll effect) */}
+      <div className="mb-3.5">
+        <Link
+          to={`/projects/${project.slug}`}
+          aria-label={`View ${project.title} details`}
+          className="block overflow-hidden rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0a66c2] focus:ring-offset-1"
+        >
+          <ProjectScreenshotPreview
+            src={project.image}
+            alt={project.title}
+          />
+        </Link>
+      </div>
+
       {/* Category & Date Header */}
       <div className="flex items-center justify-between gap-2">
         {project.category && (

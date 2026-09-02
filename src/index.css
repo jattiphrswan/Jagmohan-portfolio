@@ -22,3 +22,37 @@ body,
     @apply outline-none ring-2 ring-blue-500 ring-offset-2;
   }
 }
+
+/* Project Screenshot Hover Scroll Effect */
+.project-image-scroll {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.project-image-scroll-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform: translateY(0);
+  transition: transform var(--scroll-duration, 4s) ease-in-out;
+  will-change: transform;
+}
+
+/* Desktop hover: smoothly scroll screenshot vertically from top to bottom */
+@media (hover: hover) and (pointer: fine) {
+  .project-image-scroll:hover .project-image-scroll-img,
+  a:hover .project-image-scroll .project-image-scroll-img,
+  article:hover .project-image-scroll .project-image-scroll-img {
+    transform: translateY(var(--scroll-dist, 0px));
+  }
+}
+
+/* Accessibility: respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .project-image-scroll-img {
+    transition: none !important;
+    transform: none !important;
+  }
+}
