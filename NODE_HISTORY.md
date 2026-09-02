@@ -70,7 +70,17 @@ Complete historical log of development nodes completed on the `portfolio-v2` bra
 
 ## N15 — Final Regression Testing & Production Sign-Off
 - **Status**: PASS ✅
-- Executed comprehensive live production QA across all public routes, API health, database persistence, deep-link refreshes, security guards, and static crawler directives.
+- **Problem**: N/A
+- **Solution**: Executed comprehensive live production QA across all public routes, API health, database persistence, deep-link refreshes, security guards, and static crawler directives.
 - Verified 57/57 live production tests passing (`test_n15_production_qa.mjs`).
 - Verified local lint, SEO, backend, and build test suites passing 100%.
 - Marked Jagmohan Portfolio V2 as **PRODUCTION READY** 🚀.
+
+## Post-N15 Production Hotfix — Gmail API Migration
+- **Status**: PASS ✅
+- **Problem**: Render Free environment blocks outbound SMTP traffic on ports 25, 465, and 587, causing Nodemailer SMTP attempts to fail with `ETIMEDOUT` and `ENETUNREACH`.
+- **Solution**: Permanently migrated contact email transport from Nodemailer/SMTP to Google's official `googleapis` client over HTTPS via OAuth2.
+- **Scope**: Minimal Gmail permission `https://www.googleapis.com/auth/gmail.send`.
+- **Authentication**: Uses `GMAIL_USER`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `GOOGLE_REFRESH_TOKEN`. Fully deprecated and removed `GMAIL_APP_PASSWORD` and `nodemailer` dependency.
+- **Contract**: Fully preserved existing `POST /api/contact` API request and response contracts, form validation, honeypot spam traps, IP rate limiting, and visitor `Reply-To` routing.
+

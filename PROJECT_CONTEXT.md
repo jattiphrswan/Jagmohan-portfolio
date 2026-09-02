@@ -40,13 +40,15 @@ This document serves as the primary technical context and source of truth for de
 - Reusable Media Upload component (`MediaUpload.jsx`) for persistent cloud imagery
 
 ### Contact System
-- Direct Gmail SMTP dispatch via Nodemailer to owner's inbox (`jattiphrswan49@gmail.com`)
+- Direct Gmail API dispatch via official `googleapis` client (OAuth2 over HTTPS) to owner's inbox (`jattiphrswan49@gmail.com`)
+- Uses minimal OAuth2 scope: `https://www.googleapis.com/auth/gmail.send`
+- Bypasses Render Free SMTP port restrictions (Render Free blocks outbound ports 25, 465, and 587)
 - Visitor email set as `Reply-To`
 - **CRITICAL**: No contact messages are saved to PostgreSQL or files. Zero database message persistence by design.
 
 ---
 
-## 4. Production Deployment Architecture (N14)
+## 4. Production Deployment Architecture (N14 + Post-N15 Hotfix)
 
 ```
                     GitHub Repository
@@ -62,14 +64,14 @@ This document serves as the primary technical context and source of truth for de
                          ┌──────────────┼──────────────┐
                          │              │              │
                     PostgreSQL      Cloudinary       Gmail
-                   (Neon / DB)        Media          SMTP
+                   (Neon / DB)        Media        API (HTTPS)
 ```
 
 - **Frontend Hosting**: **Vercel** (Vite SPA deployment with rewrite rules for client routing)
 - **Backend Hosting**: **Render** (Node/Express web service). Render backend may cold-start after idle periods; frontend handles loading states cleanly.
 - **Database**: **Neon** managed PostgreSQL instance connected through Prisma ORM.
 - **Media Storage**: **Cloudinary** for persistent images (avatars, banners, project screenshots, certificates).
-- **Email Delivery**: **Gmail SMTP** (`smtp.gmail.com` port 465) using Google App Passwords.
+- **Email Delivery**: **Google Gmail API** (`googleapis` v178) via OAuth2 over HTTPS (`GMAIL_USER`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`). Render Free blocks outbound SMTP traffic on ports 25, 465, and 587; Gmail API over HTTPS completely eliminates SMTP connection timeouts and requires zero App Passwords.
 
 ---
 

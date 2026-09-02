@@ -248,11 +248,20 @@ src/
 - Verified 100% test pass rate across local and production test suites (`test_n15_production_qa.mjs`, `test_n13_seo.mjs`, `test_n13_backend.mjs`)
 - All temporary QA artifacts removed; working tree clean and secret-safe
 
+## Post-N15 Production Hotfix — Gmail API Migration (PASS)
+
+- Render Free blocks outbound SMTP ports 25, 465, and 587.
+- Migrated contact form email delivery to Google Gmail API (`googleapis` v178) via OAuth2 over HTTPS (`https://www.googleapis.com/auth/gmail.send`).
+- Removed `nodemailer` dependency and deprecated all `GMAIL_APP_PASSWORD` requirements.
+- Configured RFC 2822 multipart MIME builder with Base64URL encoding.
+- Enforced zero startup network calls; server boots quickly under 1 second.
+- Verified frontend request/response contract (`POST /api/contact`) remains 100% unchanged.
+
 ## Current Action
 
-ALL NODES (N0–N11, N13–N15) = **PASS** ✅  
+ALL NODES (N0–N11, N13–N15) + Post-N15 Hotfix = **PASS** ✅  
 N12 = **SKIPPED BY DESIGN** (Direct Gmail enquiry architecture)  
-PROJECT STATUS: **PRODUCTION READY** 🚀
+PROJECT STATUS: **PRODUCTION READY & GMAIL API ENABLED** 🚀
 
 
 

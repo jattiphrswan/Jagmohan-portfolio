@@ -1,10 +1,4 @@
-import nodemailer from 'nodemailer';
-import dns from 'dns';
-
-// Ensure IPv4 is prioritized for SMTP lookups in container environments (Render)
-if (typeof dns.setDefaultResultOrder === 'function') {
-  dns.setDefaultResultOrder('ipv4first');
-}
+import { google } from 'googleapis';
 
 /**
  * HTML escape helper to prevent HTML injection in emails
@@ -26,36 +20,90 @@ function sanitizeHeader(str = '') {
 }
 
 /**
- * Check if Gmail SMTP credentials are configured
+ * Check if Gmail API OAuth2 credentials are configured
  */
 export function isMailConfigured() {
-  return Boolean(process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD);
+  return Boolean(
+    process.env.GMAIL_USER &&
+    process.env.GOOGLE_CLIENT_ID &&
+    process.env.GOOGLE_CLIENT_SECRET &&
+    process.env.GOOGLE_REFRESH_TOKEN
+  );
 }
 
 /**
- * Create reusable Nodemailer transport
+ * Initialize authenticated Gmail API client via OAuth2
  */
-function createTransporter() {
+function getGmailClient() {
   const user = process.env.GMAIL_USER;
-  const pass = process.env.GMAIL_APP_PASSWORD;
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
 
-  if (!user || !pass) {
+  if (!user || !clientId || !clientSecret || !refreshToken) {
     return null;
   }
 
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // false for port 587 with STARTTLS
-    requireTLS: true,
-    auth: {
-      user,
-      pass
-    },
-    connectionTimeout: 10000, // 10s connection timeout
-    greetingTimeout: 10000,   // 10s SMTP greeting timeout
-    socketTimeout: 15000      // 15s socket inactivity timeout
+  const oauth2Client = new google.auth.OAuth2(
+    clientId,
+    clientSecret
+  );
+
+  oauth2Client.setCredentials({
+    refresh_token: refreshToken
   });
+
+  return google.gmail({
+    version: 'v1',
+    auth: oauth2Client
+  });
+}
+
+/**
+ * Construct standard RFC 2822 multipart/alternative MIME message
+ */
+function buildMimeMessage({ from, to, replyTo, subject, text, html }) {
+  const boundary = `__portfolio_boundary_${Date.now().toString(16)}__`;
+  const utf8Subject = `=?UTF-8?B?${Buffer.from(subject, 'utf-8').toString('base64')}?=`;
+
+  const textBase64 = Buffer.from(text, 'utf-8').toString('base64');
+  const htmlBase64 = Buffer.from(html, 'utf-8').toString('base64');
+
+  const lines = [
+    `From: ${from}`,
+    `To: ${to}`,
+    `Reply-To: ${replyTo}`,
+    `Subject: ${utf8Subject}`,
+    `MIME-Version: 1.0`,
+    `Content-Type: multipart/alternative; boundary="${boundary}"`,
+    '',
+    `--${boundary}`,
+    'Content-Type: text/plain; charset="UTF-8"',
+    'Content-Transfer-Encoding: base64',
+    '',
+    textBase64,
+    '',
+    `--${boundary}`,
+    'Content-Type: text/html; charset="UTF-8"',
+    'Content-Transfer-Encoding: base64',
+    '',
+    htmlBase64,
+    '',
+    `--${boundary}--`
+  ];
+
+  return lines.join('\r\n');
+}
+
+/**
+ * Encode string to Base64URL without padding (RFC 4648 §5)
+ */
+function encodeBase64Url(str) {
+  return Buffer.from(str, 'utf-8')
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
 }
 
 /**
@@ -79,11 +127,11 @@ export async function sendContactEmail({
     projectType ? `New Portfolio Enquiry — ${projectType} — ${safeName}` : `New Portfolio Enquiry — ${safeName}`
   );
 
-  const transporter = createTransporter();
+  const gmail = getGmailClient();
 
-  if (!transporter) {
-    const err = new Error('GMAIL_NOT_CONFIGURED');
-    err.code = 'GMAIL_NOT_CONFIGURED';
+  if (!gmail) {
+    const err = new Error('GMAIL_API_NOT_CONFIGURED');
+    err.code = 'GMAIL_API_NOT_CONFIGURED';
     throw err;
   }
 
@@ -181,18 +229,26 @@ ${message}
 </html>
 `.trim();
 
-  const mailOptions = {
+  const mimeMessage = buildMimeMessage({
     from: `"${fromName}" <${user}>`,
     to: toEmail,
     replyTo: `"${safeName}" <${safeEmail}>`,
     subject: safeSubject,
     text: textContent,
     html: htmlContent
-  };
+  });
 
-  const info = await transporter.sendMail(mailOptions);
+  const raw = encodeBase64Url(mimeMessage);
+
+  const res = await gmail.users.messages.send({
+    userId: 'me',
+    requestBody: {
+      raw
+    }
+  });
+
   return {
     success: true,
-    messageId: info.messageId
+    messageId: res.data?.id
   };
 }

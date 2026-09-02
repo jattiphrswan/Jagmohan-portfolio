@@ -11,7 +11,7 @@ The application showcases authentic web development work with a public responsiv
 - **Public Portfolio**: LinkedIn-inspired, clean card layout, sticky top navigation, profile banner, bio, services, tools catalogue, work experience timeline, skills breakdown, project showcase, verified certificate lightbox, and direct contact form.
 - **Private Admin Dashboard**: Private email/password authentication (JWT in HTTP-only cookie), full CRUD for Projects, Profile, Experience, Skills, Certifications, and unified media management.
 - **Zero Mock Data in Production**: All dynamic content is backed by PostgreSQL via Prisma ORM with resilient fallback stores during initial development/offline testing.
-- **Direct Gmail Contact Workflow**: Enquiries submitted via the public contact form are validated server-side, rate-limited, protected with honeypot fields, and routed directly to the owner's Gmail inbox via Nodemailer SMTP with `Reply-To` set to the visitor's email. No contact messages or leads are persisted in the database.
+- **Direct Gmail Contact Workflow**: Enquiries submitted via the public contact form are validated server-side, rate-limited, protected with honeypot fields, and routed directly to the owner's Gmail inbox via Google Gmail API (OAuth2 over HTTPS) with `Reply-To` set to the visitor's email. No contact messages or leads are persisted in the database.
 
 ---
 
@@ -31,7 +31,7 @@ The application showcases authentic web development work with a public responsiv
 - **Authentication**: JSON Web Tokens (`jsonwebtoken`) + HTTP-Only Cookie (`cookie-parser`) + `bcryptjs`
 - **Security & Middleware**: Helmet v8, CORS, Express JSON (10MB limit), `express-rate-limit` v8
 - **Media Storage**: Cloudinary integration API (via server-side credentials) + data URI resilience fallback
-- **Email Delivery**: Nodemailer v9 via Gmail SMTP (`smtp.gmail.com`)
+- **Email Delivery**: Google Gmail API (`googleapis`) via OAuth2 over HTTPS (bypasses Render Free SMTP blocks)
 
 ---
 
@@ -51,7 +51,7 @@ The application showcases authentic web development work with a public responsiv
                          ┌──────────────┼──────────────┐
                          │              │              │
                     PostgreSQL      Cloudinary       Gmail
-                   (Neon / DB)        Media          SMTP
+                   (Neon / DB)        Media        API (HTTPS)
 ```
 
 - **Public Reads**: Public visitors load static UI from Vercel; pages consume live backend endpoints (`/api/profile`, `/api/projects`, `/api/certifications`).
@@ -126,9 +126,11 @@ CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 
-# Gmail Contact Form Configuration (N11)
+# Gmail API Contact Form Configuration (Post-N15 Hotfix)
 GMAIL_USER=
-GMAIL_APP_PASSWORD=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REFRESH_TOKEN=
 CONTACT_TO_EMAIL=
 CONTACT_FROM_NAME="Jagmohan Portfolio"
 ```
