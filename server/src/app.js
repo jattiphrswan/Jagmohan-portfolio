@@ -90,6 +90,10 @@ if (NODE_ENV === 'development') {
 // ── Mount API Routes ─────────────────────────────────────────
 app.use('/api/health', healthRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/skills', (req, res, next) => {
+  req.url = '/skills' + (req.url === '/' ? '' : req.url);
+  profileRouter(req, res, next);
+});
 app.use('/api/projects', projectsRouter);
 app.use('/api/certifications', certificationsRouter);
 app.use('/api/contact', contactRouter);

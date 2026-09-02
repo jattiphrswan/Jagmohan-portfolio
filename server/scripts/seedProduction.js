@@ -61,20 +61,50 @@ const authenticExperiences = [
 ];
 
 const authenticSkills = [
-  { name: "HTML5", category: "Frontend", displayOrder: 1 },
-  { name: "CSS3", category: "Frontend", displayOrder: 2 },
-  { name: "Bootstrap", category: "Frontend", displayOrder: 3 },
-  { name: "Tailwind CSS", category: "Frontend", displayOrder: 4 },
-  { name: "JavaScript", category: "Frontend", displayOrder: 5 },
-  { name: "React", category: "Frontend", displayOrder: 6 },
-  { name: "WordPress", category: "WordPress", displayOrder: 7 },
-  { name: "WooCommerce", category: "WordPress", displayOrder: 8 },
-  { name: "Elementor Pro", category: "WordPress", displayOrder: 9 },
-  { name: "Divi Builder", category: "WordPress", displayOrder: 10 },
-  { name: "ACF", category: "WordPress", displayOrder: 11 },
-  { name: "Photoshop", category: "Design Tools", displayOrder: 12 },
-  { name: "Affinity Photo", category: "Design Tools", displayOrder: 13 },
-  { name: "Figma", category: "Design Tools", displayOrder: 14 }
+  // Front-End Development
+  { name: "HTML5", category: "Front-End Development", displayOrder: 1, featured: true },
+  { name: "CSS3", category: "Front-End Development", displayOrder: 2, featured: true },
+  { name: "JavaScript (ES6+)", category: "Front-End Development", displayOrder: 3, featured: true },
+  { name: "React", category: "Front-End Development", displayOrder: 4, featured: true },
+  { name: "Next.js", category: "Front-End Development", displayOrder: 5, featured: true },
+  { name: "Tailwind CSS", category: "Front-End Development", displayOrder: 6, featured: true },
+  { name: "Bootstrap", category: "Front-End Development", displayOrder: 7, featured: true },
+
+  // WordPress & CMS
+  { name: "WordPress", category: "WordPress & CMS", displayOrder: 8, featured: true },
+  { name: "WooCommerce", category: "WordPress & CMS", displayOrder: 9, featured: true },
+  { name: "Elementor Pro", category: "WordPress & CMS", displayOrder: 10, featured: true },
+  { name: "Divi Builder", category: "WordPress & CMS", displayOrder: 11, featured: true },
+  { name: "Advanced Custom Fields (ACF)", category: "WordPress & CMS", displayOrder: 12, featured: true },
+  { name: "WP Mail SMTP", category: "WordPress & CMS", displayOrder: 13, featured: false },
+  { name: "Rank Math SEO", category: "WordPress & CMS", displayOrder: 14, featured: false },
+
+  // Backend & Database
+  { name: "PHP", category: "Backend & Database", displayOrder: 15, featured: true },
+  { name: "Node.js", category: "Backend & Database", displayOrder: 16, featured: true },
+  { name: "Express.js", category: "Backend & Database", displayOrder: 17, featured: true },
+  { name: "PostgreSQL", category: "Backend & Database", displayOrder: 18, featured: true },
+  { name: "Prisma ORM", category: "Backend & Database", displayOrder: 19, featured: false },
+  { name: "Drizzle ORM", category: "Backend & Database", displayOrder: 20, featured: false },
+
+  // Design & Creative Tools
+  { name: "Photoshop", category: "Design & Creative Tools", displayOrder: 21, featured: true },
+  { name: "Affinity Photo", category: "Design & Creative Tools", displayOrder: 22, featured: true },
+  { name: "Figma", category: "Design & Creative Tools", displayOrder: 23, featured: true },
+  { name: "UI/UX Design", category: "Design & Creative Tools", displayOrder: 24, featured: true },
+
+  // Workflow & Cloud Tools
+  { name: "Git & GitHub", category: "Workflow & Cloud Tools", displayOrder: 25, featured: true },
+  { name: "Vercel", category: "Workflow & Cloud Tools", displayOrder: 26, featured: false },
+  { name: "Render", category: "Workflow & Cloud Tools", displayOrder: 27, featured: false },
+  { name: "Hostinger", category: "Workflow & Cloud Tools", displayOrder: 28, featured: false },
+  { name: "Resend", category: "Workflow & Cloud Tools", displayOrder: 29, featured: false },
+  { name: "Gmail API", category: "Workflow & Cloud Tools", displayOrder: 30, featured: false },
+  { name: "Brevo (Sendinblue)", category: "Workflow & Cloud Tools", displayOrder: 31, featured: false },
+  { name: "GoHighLevel (GHL)", category: "Workflow & Cloud Tools", displayOrder: 32, featured: false },
+  { name: "Tawk.to", category: "Workflow & Cloud Tools", displayOrder: 33, featured: false },
+  { name: "Google Analytics 4 (GA4)", category: "Workflow & Cloud Tools", displayOrder: 34, featured: false },
+  { name: "Google Tag Manager", category: "Workflow & Cloud Tools", displayOrder: 35, featured: false }
 ];
 
 async function seedProduction() {
@@ -152,16 +182,20 @@ async function seedProduction() {
       console.log("ℹ️ Experience records already exist, skipping.");
     }
 
-    // 4. Skills bootstrap
-    const skillsCount = await prisma.skill.count();
-    if (skillsCount === 0) {
-      for (const skill of authenticSkills) {
+    // 4. Skills bootstrap & synchronization
+    let addedSkillsCount = 0;
+    for (const skill of authenticSkills) {
+      const existing = await prisma.skill.findFirst({
+        where: {
+          name: { equals: skill.name, mode: 'insensitive' }
+        }
+      });
+      if (!existing) {
         await prisma.skill.create({ data: skill });
+        addedSkillsCount++;
       }
-      console.log(`✅ ${authenticSkills.length} authentic skills seeded.`);
-    } else {
-      console.log("ℹ️ Skills already exist, skipping.");
     }
+    console.log(`✅ Skills synchronized: ${addedSkillsCount} new skills added, authentic catalogue: ${authenticSkills.length}.`);
 
     // 5. Projects bootstrap
     const projectCount = await prisma.project.count();
