@@ -143,7 +143,7 @@ router.post('/', contactLimiter, async (req, res, next) => {
       message: "Thanks! Your message has been sent. I'll get back to you soon."
     });
   } catch (err) {
-    console.error('[CONTACT API ERROR]', err.message || err);
+    console.error('[CONTACT API ERROR]', err.code ? `[${err.code}] ${err.message}` : (err.message || err));
     return res.status(500).json({
       success: false,
       message: 'Message could not be sent right now. Please try again shortly.'

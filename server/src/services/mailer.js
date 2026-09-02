@@ -1,4 +1,10 @@
 import nodemailer from 'nodemailer';
+import dns from 'dns';
+
+// Ensure IPv4 is prioritized for SMTP lookups in container environments (Render)
+if (typeof dns.setDefaultResultOrder === 'function') {
+  dns.setDefaultResultOrder('ipv4first');
+}
 
 /**
  * HTML escape helper to prevent HTML injection in emails
@@ -39,12 +45,16 @@ function createTransporter() {
 
   return nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // true for port 465
+    port: 587,
+    secure: false, // false for port 587 with STARTTLS
+    requireTLS: true,
     auth: {
       user,
       pass
-    }
+    },
+    connectionTimeout: 10000, // 10s connection timeout
+    greetingTimeout: 10000,   // 10s SMTP greeting timeout
+    socketTimeout: 15000      // 15s socket inactivity timeout
   });
 }
 
@@ -61,7 +71,7 @@ export async function sendContactEmail({
   message
 }) {
   const user = process.env.GMAIL_USER;
-  const toEmail = process.env.CONTACT_TO_EMAIL || user || 'jattiphrswan49@gmail.com';
+  const toEmail = process.env.CONTACT_TO_EMAIL || user;
   const fromName = sanitizeHeader(process.env.CONTACT_FROM_NAME || 'Jagmohan Portfolio');
   const safeName = sanitizeHeader(name);
   const safeEmail = sanitizeHeader(email);

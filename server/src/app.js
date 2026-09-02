@@ -1,6 +1,14 @@
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import dns from 'dns';
+
+// Ensure Node runtime prefers IPv4 DNS resolution.
+// Cloud environments like Render lack outbound IPv6 connectivity,
+// causing ENETUNREACH errors when connecting to external services (e.g. Gmail SMTP).
+if (typeof dns.setDefaultResultOrder === 'function') {
+  dns.setDefaultResultOrder('ipv4first');
+}
 
 // Load environment variables from server/.env
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -34,6 +42,12 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+
+// ── Trust Proxy Configuration for Render Reverse Proxy ────────
+// Render operates behind a single reverse proxy layer. Setting 'trust proxy' to 1
+// allows express-rate-limit and Express req.ip to safely resolve the client IP
+// from the X-Forwarded-For header without IP spoofing vulnerabilities.
+app.set('trust proxy', 1);
 
 // ── Security & Core Middleware ──────────────────────────────
 app.use(helmet());
