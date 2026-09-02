@@ -39,7 +39,8 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
+const HOST = '0.0.0.0';
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
@@ -111,11 +112,11 @@ app.use(errorHandler);
 
 // ── Start Server ─────────────────────────────────────────────
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
+  app.listen(PORT, HOST, () => {
     console.log(`==============================================`);
-    console.log(`🚀 Portfolio Backend Server running on port ${PORT}`);
+    console.log(`🚀 Portfolio Backend Server running on port ${PORT} (${HOST})`);
     console.log(`🌍 Environment: ${NODE_ENV}`);
-    console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`🔗 Health Check: http://${HOST}:${PORT}/api/health`);
     console.log(`💻 Allowed Frontend: ${allowedOrigins.join(', ')}`);
     console.log(`==============================================`);
   });
