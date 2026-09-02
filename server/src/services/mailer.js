@@ -1,4 +1,4 @@
-import { google } from 'googleapis';
+import { Resend } from 'resend';
 
 /**
  * HTML escape helper to prevent HTML injection in emails
@@ -20,94 +20,25 @@ function sanitizeHeader(str = '') {
 }
 
 /**
- * Check if Gmail API OAuth2 credentials are configured
+ * Check if Resend API key is configured
  */
 export function isMailConfigured() {
-  return Boolean(
-    process.env.GMAIL_USER &&
-    process.env.GOOGLE_CLIENT_ID &&
-    process.env.GOOGLE_CLIENT_SECRET &&
-    process.env.GOOGLE_REFRESH_TOKEN
-  );
+  return Boolean(process.env.RESEND_API_KEY);
 }
 
 /**
- * Initialize authenticated Gmail API client via OAuth2
+ * Initialize Resend client safely without crashing on missing key
  */
-function getGmailClient() {
-  const user = process.env.GMAIL_USER;
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-  const refreshToken = process.env.GOOGLE_REFRESH_TOKEN;
-
-  if (!user || !clientId || !clientSecret || !refreshToken) {
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
     return null;
   }
-
-  const oauth2Client = new google.auth.OAuth2(
-    clientId,
-    clientSecret
-  );
-
-  oauth2Client.setCredentials({
-    refresh_token: refreshToken
-  });
-
-  return google.gmail({
-    version: 'v1',
-    auth: oauth2Client
-  });
+  return new Resend(apiKey);
 }
 
 /**
- * Construct standard RFC 2822 multipart/alternative MIME message
- */
-function buildMimeMessage({ from, to, replyTo, subject, text, html }) {
-  const boundary = `__portfolio_boundary_${Date.now().toString(16)}__`;
-  const utf8Subject = `=?UTF-8?B?${Buffer.from(subject, 'utf-8').toString('base64')}?=`;
-
-  const textBase64 = Buffer.from(text, 'utf-8').toString('base64');
-  const htmlBase64 = Buffer.from(html, 'utf-8').toString('base64');
-
-  const lines = [
-    `From: ${from}`,
-    `To: ${to}`,
-    `Reply-To: ${replyTo}`,
-    `Subject: ${utf8Subject}`,
-    `MIME-Version: 1.0`,
-    `Content-Type: multipart/alternative; boundary="${boundary}"`,
-    '',
-    `--${boundary}`,
-    'Content-Type: text/plain; charset="UTF-8"',
-    'Content-Transfer-Encoding: base64',
-    '',
-    textBase64,
-    '',
-    `--${boundary}`,
-    'Content-Type: text/html; charset="UTF-8"',
-    'Content-Transfer-Encoding: base64',
-    '',
-    htmlBase64,
-    '',
-    `--${boundary}--`
-  ];
-
-  return lines.join('\r\n');
-}
-
-/**
- * Encode string to Base64URL without padding (RFC 4648 §5)
- */
-function encodeBase64Url(str) {
-  return Buffer.from(str, 'utf-8')
-    .toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
-}
-
-/**
- * Send Contact Enquiry Email to Portfolio Owner
+ * Send Contact Enquiry Email to Portfolio Owner via Resend HTTPS API
  */
 export async function sendContactEmail({
   name,
@@ -118,8 +49,7 @@ export async function sendContactEmail({
   budget = '',
   message
 }) {
-  const user = process.env.GMAIL_USER;
-  const toEmail = process.env.CONTACT_TO_EMAIL || user;
+  const toEmail = process.env.CONTACT_TO_EMAIL || 'jattiphrswan49@gmail.com';
   const fromName = sanitizeHeader(process.env.CONTACT_FROM_NAME || 'Jagmohan Portfolio');
   const safeName = sanitizeHeader(name);
   const safeEmail = sanitizeHeader(email);
@@ -127,11 +57,11 @@ export async function sendContactEmail({
     projectType ? `New Portfolio Enquiry — ${projectType} — ${safeName}` : `New Portfolio Enquiry — ${safeName}`
   );
 
-  const gmail = getGmailClient();
+  const resend = getResendClient();
 
-  if (!gmail) {
-    const err = new Error('GMAIL_API_NOT_CONFIGURED');
-    err.code = 'GMAIL_API_NOT_CONFIGURED';
+  if (!resend) {
+    const err = new Error('RESEND_NOT_CONFIGURED');
+    err.code = 'RESEND_NOT_CONFIGURED';
     throw err;
   }
 
@@ -229,26 +159,25 @@ ${message}
 </html>
 `.trim();
 
-  const mimeMessage = buildMimeMessage({
-    from: `"${fromName}" <${user}>`,
+  const from = `${fromName} <onboarding@resend.dev>`;
+
+  const { data, error } = await resend.emails.send({
+    from,
     to: toEmail,
-    replyTo: `"${safeName}" <${safeEmail}>`,
+    replyTo: safeEmail,
     subject: safeSubject,
     text: textContent,
     html: htmlContent
   });
 
-  const raw = encodeBase64Url(mimeMessage);
-
-  const res = await gmail.users.messages.send({
-    userId: 'me',
-    requestBody: {
-      raw
-    }
-  });
+  if (error) {
+    const err = new Error(error.message || 'Email delivery failed');
+    err.code = error.name || error.statusCode || 'RESEND_ERROR';
+    throw err;
+  }
 
   return {
     success: true,
-    messageId: res.data?.id
+    messageId: data?.id
   };
 }

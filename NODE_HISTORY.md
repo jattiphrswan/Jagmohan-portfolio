@@ -76,11 +76,12 @@ Complete historical log of development nodes completed on the `portfolio-v2` bra
 - Verified local lint, SEO, backend, and build test suites passing 100%.
 - Marked Jagmohan Portfolio V2 as **PRODUCTION READY** 🚀.
 
-## Post-N15 Production Hotfix — Gmail API Migration
+## Post-N15 Production Hotfix — Resend Migration
 - **Status**: PASS ✅
-- **Problem**: Render Free environment blocks outbound SMTP traffic on ports 25, 465, and 587, causing Nodemailer SMTP attempts to fail with `ETIMEDOUT` and `ENETUNREACH`.
-- **Solution**: Permanently migrated contact email transport from Nodemailer/SMTP to Google's official `googleapis` client over HTTPS via OAuth2.
-- **Scope**: Minimal Gmail permission `https://www.googleapis.com/auth/gmail.send`.
-- **Authentication**: Uses `GMAIL_USER`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `GOOGLE_REFRESH_TOKEN`. Fully deprecated and removed `GMAIL_APP_PASSWORD` and `nodemailer` dependency.
-- **Contract**: Fully preserved existing `POST /api/contact` API request and response contracts, form validation, honeypot spam traps, IP rate limiting, and visitor `Reply-To` routing.
+- **Problem**: Render Free blocks outbound SMTP ports, and Gmail API OAuth2 setup proved unreliable in production due to repeated OAuth token refresh/credential maintenance issues.
+- **Solution**: Replaced email transport with Resend's official Node.js SDK (`resend`) over HTTPS using `RESEND_API_KEY`.
+- **Sender**: Uses Resend supported test sender `onboarding@resend.dev` with custom `CONTACT_FROM_NAME`, routing directly to `CONTACT_TO_EMAIL`.
+- **Reply-To**: Points to visitor's submitted email address for direct one-click reply.
+- **Dependencies**: Removed `googleapis` and `nodemailer`. Completely deprecated `GMAIL_USER`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`, and `GMAIL_APP_PASSWORD`.
+- **Contract**: Zero changes to frontend contact form or `POST /api/contact` API request and response structure.
 

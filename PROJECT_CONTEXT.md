@@ -40,9 +40,9 @@ This document serves as the primary technical context and source of truth for de
 - Reusable Media Upload component (`MediaUpload.jsx`) for persistent cloud imagery
 
 ### Contact System
-- Direct Gmail API dispatch via official `googleapis` client (OAuth2 over HTTPS) to owner's inbox (`jattiphrswan49@gmail.com`)
-- Uses minimal OAuth2 scope: `https://www.googleapis.com/auth/gmail.send`
-- Bypasses Render Free SMTP port restrictions (Render Free blocks outbound ports 25, 465, and 587)
+- Direct Resend HTTPS API dispatch via official `resend` client to owner's inbox (`jattiphrswan49@gmail.com`)
+- Uses Resend test sender `onboarding@resend.dev` with custom `CONTACT_FROM_NAME`
+- Bypasses Render Free SMTP port restrictions (ports 25, 465, 587) and avoids Gmail OAuth2 token maintenance
 - Visitor email set as `Reply-To`
 - **CRITICAL**: No contact messages are saved to PostgreSQL or files. Zero database message persistence by design.
 
@@ -63,15 +63,15 @@ This document serves as the primary technical context and source of truth for de
                                         │
                          ┌──────────────┼──────────────┐
                          │              │              │
-                    PostgreSQL      Cloudinary       Gmail
-                   (Neon / DB)        Media        API (HTTPS)
+                    PostgreSQL      Cloudinary       Resend
+                   (Neon / DB)        Media       (HTTPS API)
 ```
 
 - **Frontend Hosting**: **Vercel** (Vite SPA deployment with rewrite rules for client routing)
 - **Backend Hosting**: **Render** (Node/Express web service). Render backend may cold-start after idle periods; frontend handles loading states cleanly.
 - **Database**: **Neon** managed PostgreSQL instance connected through Prisma ORM.
 - **Media Storage**: **Cloudinary** for persistent images (avatars, banners, project screenshots, certificates).
-- **Email Delivery**: **Google Gmail API** (`googleapis` v178) via OAuth2 over HTTPS (`GMAIL_USER`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REFRESH_TOKEN`). Render Free blocks outbound SMTP traffic on ports 25, 465, and 587; Gmail API over HTTPS completely eliminates SMTP connection timeouts and requires zero App Passwords.
+- **Email Delivery**: **Resend** (`resend` v6) via HTTPS REST API (`RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_NAME`). Render Free blocks outbound SMTP traffic on ports 25, 465, and 587; Resend over HTTPS completely eliminates SMTP connection timeouts and requires zero OAuth token refresh or App Passwords.
 
 ---
 

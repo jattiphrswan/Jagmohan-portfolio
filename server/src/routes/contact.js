@@ -119,7 +119,7 @@ router.post('/', contactLimiter, async (req, res, next) => {
         });
       }
 
-      console.warn('[CONTACT API] Gmail API credentials (GMAIL_USER, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN) are not configured.');
+      console.warn('[CONTACT API] Resend credentials (RESEND_API_KEY) are not configured.');
       return res.status(503).json({
         success: false,
         message: 'Contact email service is temporarily unconfigured on this server.'
@@ -127,7 +127,7 @@ router.post('/', contactLimiter, async (req, res, next) => {
     }
 
 
-    // 7. Dispatch Email via Gmail API (HTTPS REST)
+    // 7. Dispatch Email via Resend HTTPS API
     await sendContactEmail({
       name: name.trim(),
       email: email.trim(),
