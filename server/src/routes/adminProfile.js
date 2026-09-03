@@ -47,6 +47,10 @@ router.put('/', async (req, res, next) => {
       about,
       company,
       projectsCount,
+      projectsDone,
+      yearsExperience,
+      wordpressProjects,
+      wordpressProjectsSubtitle,
       email,
       phone,
       linkedin,
@@ -71,13 +75,19 @@ router.put('/', async (req, res, next) => {
       });
     }
 
+    const resolvedProjectsDone = projectsDone ? projectsDone.trim() : (projectsCount ? projectsCount.trim() : '60+');
+
     const updatedData = {
       name: name.trim(),
       headline: headline.trim(),
       location: location ? location.trim() : 'Delhi, India',
       about: about ? about.trim() : '',
       company: company ? company.trim() : 'SkyFish Development',
-      projectsCount: projectsCount ? projectsCount.trim() : '80+',
+      projectsCount: resolvedProjectsDone,
+      projectsDone: resolvedProjectsDone,
+      yearsExperience: yearsExperience ? yearsExperience.trim() : '3+ Years',
+      wordpressProjects: wordpressProjects ? wordpressProjects.trim() : '50+ WordPress Projects',
+      wordpressProjectsSubtitle: wordpressProjectsSubtitle ? wordpressProjectsSubtitle.trim() : 'Custom Builds, WooCommerce & Elementor',
       email: email ? email.trim() : null,
       phone: phone ? phone.trim() : null,
       linkedin: linkedin ? linkedin.trim() : null,

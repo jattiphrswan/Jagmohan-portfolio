@@ -6,7 +6,11 @@ export const profile = {
  // optional
   company: "SkyFish Development",
   location: "Delhi, India",
-  projects: "80+",
+  projects: "60+",
+  projectsDone: "60+",
+  yearsExperience: "3+ Years",
+  wordpressProjects: "50+ WordPress Projects",
+  wordpressProjectsSubtitle: "Custom Builds, WooCommerce & Elementor",
 
   about:
     "I’m a Web Designer & Front-End Developer with 3+ years of experience building responsive, modern websites. I work with HTML, CSS, Bootstrap, Tailwind, React, and WordPress, and I also design visuals using Photoshop and Affinity Photo.",

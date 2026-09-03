@@ -27,6 +27,10 @@ export default function AdminProfilePage() {
     about: '',
     company: '',
     projectsCount: '',
+    projectsDone: '',
+    yearsExperience: '',
+    wordpressProjects: '',
+    wordpressProjectsSubtitle: '',
     email: '',
     phone: '',
     linkedin: '',
@@ -59,7 +63,11 @@ export default function AdminProfilePage() {
             location: p.location || '',
             about: p.about || '',
             company: p.company || '',
-            projectsCount: p.projectsCount || '80+',
+            projectsCount: p.projectsDone || p.projectsCount || '60+',
+            projectsDone: p.projectsDone || p.projectsCount || '60+',
+            yearsExperience: p.yearsExperience || '3+ Years',
+            wordpressProjects: p.wordpressProjects || '50+ WordPress Projects',
+            wordpressProjectsSubtitle: p.wordpressProjectsSubtitle || 'Custom Builds, WooCommerce & Elementor',
             email: p.email || '',
             phone: p.phone || '',
             linkedin: p.linkedin || '',
@@ -100,8 +108,14 @@ export default function AdminProfilePage() {
 
     try {
       setSaving(true);
+      const projectsDoneVal = formData.projectsDone.trim() || formData.projectsCount.trim() || '60+';
       const payload = {
         ...formData,
+        projectsDone: projectsDoneVal,
+        projectsCount: projectsDoneVal,
+        yearsExperience: formData.yearsExperience.trim() || '3+ Years',
+        wordpressProjects: formData.wordpressProjects.trim() || '50+ WordPress Projects',
+        wordpressProjectsSubtitle: formData.wordpressProjectsSubtitle.trim() || 'Custom Builds, WooCommerce & Elementor',
         services: formData.services.split(',').map((s) => s.trim()).filter(Boolean),
         tools: formData.tools.split(',').map((t) => t.trim()).filter(Boolean)
       };
@@ -207,8 +221,8 @@ export default function AdminProfilePage() {
             </div>
           </div>
 
-          {/* Row 2: Location, Company, Projects Count */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Row 2: Location, Company */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label htmlFor="location" className="block font-semibold text-slate-700 mb-1">
                 Location
@@ -238,20 +252,71 @@ export default function AdminProfilePage() {
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-slate-900 focus:border-[#0a66c2] focus:bg-white focus:outline-none"
               />
             </div>
+          </div>
 
-            <div>
-              <label htmlFor="projectsCount" className="block font-semibold text-slate-700 mb-1">
-                Projects Completed Metric
-              </label>
-              <input
-                id="projectsCount"
-                name="projectsCount"
-                type="text"
-                value={formData.projectsCount}
-                onChange={handleChange}
-                placeholder="80+"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-slate-900 focus:border-[#0a66c2] focus:bg-white focus:outline-none"
-              />
+          {/* Portfolio Highlights (Homepage) */}
+          <div className="pt-3 border-t border-slate-100">
+            <h3 className="font-bold text-slate-900 mb-3">Portfolio Highlights (Homepage Sidebar)</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div>
+                <label htmlFor="projectsDone" className="block font-semibold text-slate-700 mb-1">
+                  Projects Done
+                </label>
+                <input
+                  id="projectsDone"
+                  name="projectsDone"
+                  type="text"
+                  value={formData.projectsDone}
+                  onChange={handleChange}
+                  placeholder="60+"
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-slate-900 focus:border-[#0a66c2] focus:bg-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="yearsExperience" className="block font-semibold text-slate-700 mb-1">
+                  Years of Experience
+                </label>
+                <input
+                  id="yearsExperience"
+                  name="yearsExperience"
+                  type="text"
+                  value={formData.yearsExperience}
+                  onChange={handleChange}
+                  placeholder="3+ Years"
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-slate-900 focus:border-[#0a66c2] focus:bg-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="wordpressProjects" className="block font-semibold text-slate-700 mb-1">
+                  WordPress Highlights Title
+                </label>
+                <input
+                  id="wordpressProjects"
+                  name="wordpressProjects"
+                  type="text"
+                  value={formData.wordpressProjects}
+                  onChange={handleChange}
+                  placeholder="50+ WordPress Projects"
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-slate-900 focus:border-[#0a66c2] focus:bg-white focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="wordpressProjectsSubtitle" className="block font-semibold text-slate-700 mb-1">
+                  WordPress Highlights Subtitle
+                </label>
+                <input
+                  id="wordpressProjectsSubtitle"
+                  name="wordpressProjectsSubtitle"
+                  type="text"
+                  value={formData.wordpressProjectsSubtitle}
+                  onChange={handleChange}
+                  placeholder="Custom Builds, WooCommerce & Elementor"
+                  className="w-full rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-slate-900 focus:border-[#0a66c2] focus:bg-white focus:outline-none"
+                />
+              </div>
             </div>
           </div>
 

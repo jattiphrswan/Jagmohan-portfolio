@@ -252,17 +252,17 @@ export default function ProfilePage() {
         <SectionCard title="Portfolio Highlights" bodyClassName="p-4 space-y-3">
           <div className="grid grid-cols-2 gap-2 text-center">
             <div className="rounded-lg bg-slate-50 border border-slate-100 p-2.5">
-              <div className="text-lg font-bold text-[#0a66c2]">{profile.projects || "80+"}</div>
+              <div className="text-lg font-bold text-[#0a66c2]">{profile?.projectsDone || profile?.projectsCount || profile?.projects || "60+"}</div>
               <div className="text-[11px] text-slate-500 font-medium">Projects Done</div>
             </div>
             <div className="rounded-lg bg-slate-50 border border-slate-100 p-2.5">
-              <div className="text-lg font-bold text-[#0a66c2]">3+ Years</div>
+              <div className="text-lg font-bold text-[#0a66c2]">{profile?.yearsExperience || "3+ Years"}</div>
               <div className="text-[11px] text-slate-500 font-medium">Experience</div>
             </div>
           </div>
           <div className="rounded-lg bg-slate-50 border border-slate-100 p-2.5 text-center">
-            <div className="text-sm font-semibold text-slate-900">20+ WordPress Sites</div>
-            <div className="text-[11px] text-slate-500">Custom themes &amp; Elementor</div>
+            <div className="text-sm font-semibold text-slate-900">{profile?.wordpressProjects || "50+ WordPress Projects"}</div>
+            <div className="text-[11px] text-slate-500">{profile?.wordpressProjectsSubtitle || "Custom Builds, WooCommerce & Elementor"}</div>
           </div>
         </SectionCard>
 

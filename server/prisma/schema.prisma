@@ -57,23 +57,27 @@ model Admin {
 
 /// Profile model for N9 singleton profile & about management
 model Profile {
-  id            String   @id @default(uuid())
-  name          String
-  headline      String
-  location      String
-  about         String   @db.Text
-  company       String?
-  projectsCount String?  @default("80+")
-  email         String?
-  phone         String?
-  linkedin      String?
-  github        String?
-  avatar        String?
-  banner        String?
-  services      String[]
-  tools         String[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id                        String   @id @default(uuid())
+  name                      String
+  headline                  String
+  location                  String
+  about                     String   @db.Text
+  company                   String?
+  projectsCount             String?  @default("60+")
+  projectsDone              String?  @default("60+")
+  yearsExperience           String?  @default("3+ Years")
+  wordpressProjects         String?  @default("50+ WordPress Projects")
+  wordpressProjectsSubtitle String?  @default("Custom Builds, WooCommerce & Elementor")
+  email                     String?
+  phone                     String?
+  linkedin                  String?
+  github                    String?
+  avatar                    String?
+  banner                    String?
+  services                  String[]
+  tools                     String[]
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
 
   @@map("profiles")
 }
