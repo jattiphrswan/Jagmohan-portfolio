@@ -1,16 +1,15 @@
 import { FiPhone, FiMail, FiMapPin, FiBriefcase, FiExternalLink } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { getImageUrl } from "../utils/image";
 
 export default function ProfileCard({ profile }) {
-  const base = import.meta.env.BASE_URL;
-
   return (
     <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
       {/* Banner */}
       <div className="relative h-32 sm:h-44 md:h-52 w-full overflow-hidden bg-gradient-to-r from-slate-800 via-blue-950 to-slate-900">
-        {profile.banner && (
+        {profile?.banner && (
           <img
-            src={`${base}images/${profile.banner}`}
+            src={getImageUrl(profile.banner)}
             alt="Jagmohan Singh profile cover banner"
             width="1200"
             height="350"
@@ -25,10 +24,10 @@ export default function ProfileCard({ profile }) {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 -mt-14 sm:-mt-20">
           {/* Avatar */}
           <div className="relative z-10 h-28 w-28 sm:h-36 sm:w-36 shrink-0 overflow-hidden rounded-full border-4 border-white bg-slate-100 shadow-md ring-1 ring-slate-200">
-            {profile.avatar ? (
+            {profile?.avatar ? (
               <img
-                src={`${base}images/${profile.avatar}`}
-                alt={`${profile.name || "Jagmohan Singh"} profile avatar`}
+                src={getImageUrl(profile.avatar)}
+                alt={`${profile?.name || "Jagmohan Singh"} profile avatar`}
                 width="144"
                 height="144"
                 loading="eager"

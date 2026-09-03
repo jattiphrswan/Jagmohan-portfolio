@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import SectionCard from '../components/SectionCard';
 import MediaUpload from '../components/MediaUpload';
 import { API_BASE } from '../config/api';
+import { useProfile } from '../context/useProfile';
 
 import {
   FiUser,
@@ -18,6 +19,7 @@ import {
 } from 'react-icons/fi';
 
 export default function AdminProfilePage() {
+  const { refetchProfile } = useProfile();
   const [formData, setFormData] = useState({
     name: '',
     headline: '',
@@ -114,6 +116,10 @@ export default function AdminProfilePage() {
       const json = await res.json();
       if (!res.ok || !json.success) {
         throw new Error(json.message || 'Failed to update profile');
+      }
+
+      if (refetchProfile) {
+        await refetchProfile();
       }
 
       setSuccess('Profile updated successfully! Live portfolio updated.');

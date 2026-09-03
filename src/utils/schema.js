@@ -10,7 +10,9 @@ import { getSiteUrl } from "./seo.js";
 export function getPersonSchema(profile) {
   const siteUrl = getSiteUrl();
   const avatarUrl = profile?.avatar
-    ? (profile.avatar.startsWith("http") ? profile.avatar : `${siteUrl}/images/${profile.avatar}`)
+    ? (profile.avatar.startsWith("http") || profile.avatar.startsWith("data:")
+        ? profile.avatar
+        : `${siteUrl}/images/${profile.avatar.startsWith("/") ? profile.avatar.slice(1) : profile.avatar}`)
     : `${siteUrl}/images/profile.webp`;
 
   const sameAs = [];

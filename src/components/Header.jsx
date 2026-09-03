@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
-import { profile } from "../data/profile";
+import { useProfile } from "../context/useProfile";
+import { getImageUrl } from "../utils/image";
 import {
   FiMenu,
   FiX,
@@ -15,8 +16,8 @@ import {
 } from "react-icons/fi";
 
 export default function Header() {
+  const { profile } = useProfile();
   const [open, setOpen] = useState(false);
-  const base = import.meta.env.BASE_URL;
 
   const links = useMemo(
     () => [
@@ -107,10 +108,10 @@ export default function Header() {
             className="hidden sm:block h-8 w-8 overflow-hidden rounded-full border border-slate-200 shadow-sm transition hover:ring-2 hover:ring-[#0a66c2]/40"
             title="View Profile"
           >
-            {profile.avatar ? (
+            {profile?.avatar ? (
               <img
-                src={`${base}images/${profile.avatar}`}
-                alt={profile.name}
+                src={getImageUrl(profile.avatar)}
+                alt={profile?.name || "Jagmohan Singh"}
                 className="h-full w-full object-cover"
               />
             ) : (
