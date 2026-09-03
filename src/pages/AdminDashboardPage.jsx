@@ -44,8 +44,12 @@ export default function AdminDashboardPage() {
       {/* Overview Status Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Projects Card */}
-        <SectionCard title="Projects" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
-          <div className="space-y-2">
+        <SectionCard
+          title="Projects"
+          className="flex flex-col h-full"
+          bodyClassName="p-4 flex flex-col flex-1"
+        >
+          <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2 text-xs font-semibold text-blue-600">
               <FiFolder />
               <span>Projects Catalogue</span>
@@ -54,7 +58,7 @@ export default function AdminDashboardPage() {
               Create, edit, feature, and delete showcase projects.
             </p>
           </div>
-          <div className="pt-2">
+          <div className="mt-auto pt-4">
             <Link
               to="/admin/projects"
               className="inline-flex items-center gap-1.5 rounded-full bg-[#0a66c2] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#004182] transition"
@@ -65,8 +69,12 @@ export default function AdminDashboardPage() {
         </SectionCard>
 
         {/* Profile Card */}
-        <SectionCard title="Profile &amp; About" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
-          <div className="space-y-2">
+        <SectionCard
+          title="Profile & About"
+          className="flex flex-col h-full"
+          bodyClassName="p-4 flex flex-col flex-1"
+        >
+          <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600">
               <FiUser />
               <span>Profile Settings</span>
@@ -75,7 +83,7 @@ export default function AdminDashboardPage() {
               Update headline, location, bio summary, and contact channels.
             </p>
           </div>
-          <div className="pt-2">
+          <div className="mt-auto pt-4">
             <Link
               to="/admin/profile"
               className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700 transition"
@@ -86,8 +94,12 @@ export default function AdminDashboardPage() {
         </SectionCard>
 
         {/* Experience Card */}
-        <SectionCard title="Experience" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
-          <div className="space-y-2">
+        <SectionCard
+          title="Experience"
+          className="flex flex-col h-full"
+          bodyClassName="p-4 flex flex-col flex-1"
+        >
+          <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2 text-xs font-semibold text-purple-600">
               <FiCheckCircle />
               <span>Career History</span>
@@ -96,7 +108,7 @@ export default function AdminDashboardPage() {
               Manage past and current employment, achievements, and order.
             </p>
           </div>
-          <div className="pt-2">
+          <div className="mt-auto pt-4">
             <Link
               to="/admin/experience"
               className="inline-flex items-center gap-1.5 rounded-full bg-purple-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-purple-700 transition"
@@ -107,17 +119,21 @@ export default function AdminDashboardPage() {
         </SectionCard>
 
         {/* Skills Card */}
-        <SectionCard title="Skills" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
-          <div className="space-y-2">
+        <SectionCard
+          title="Skills"
+          className="flex flex-col h-full"
+          bodyClassName="p-4 flex flex-col flex-1"
+        >
+          <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2 text-xs font-semibold text-amber-600">
               <FiShield />
-              <span>Expertise &amp; Tools</span>
+              <span>Expertise & Tools</span>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed">
               Manage frontend, WordPress, design tools, and categories.
             </p>
           </div>
-          <div className="pt-2">
+          <div className="mt-auto pt-4">
             <Link
               to="/admin/skills"
               className="inline-flex items-center gap-1.5 rounded-full bg-amber-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 transition"
@@ -128,17 +144,21 @@ export default function AdminDashboardPage() {
         </SectionCard>
 
         {/* Certifications Card */}
-        <SectionCard title="Certifications" bodyClassName="p-4 space-y-2 flex flex-col justify-between h-full">
-          <div className="space-y-2">
+        <SectionCard
+          title="Certifications"
+          className="flex flex-col h-full"
+          bodyClassName="p-4 flex flex-col flex-1"
+        >
+          <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2 text-xs font-semibold text-indigo-600">
               <FiAward />
-              <span>Licenses &amp; Badges</span>
+              <span>Licenses & Badges</span>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed">
               Upload certificate images, issuers, dates, and credential URLs.
             </p>
           </div>
-          <div className="pt-2">
+          <div className="mt-auto pt-4">
             <Link
               to="/admin/certifications"
               className="inline-flex items-center gap-1.5 rounded-full bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-indigo-700 transition"
